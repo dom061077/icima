@@ -1,0 +1,7 @@
+{
+  "name": "ioniccima",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
