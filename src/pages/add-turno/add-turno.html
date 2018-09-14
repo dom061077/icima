@@ -1,0 +1,59 @@
+<!--
+  Generated template for the AddTurnoPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Agregar Turno</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <form [formGroup] =  "formAdd"  (ngSubmit)="confirmar()">
+   
+            
+            <ion-auto-complete [options]="{placeholder : 'Apellido y Nombre'}"   (itemSelected)="itemSelected($event)" [dataProvider]="autocompleteService" >
+            </ion-auto-complete>
+            <ion-list> 
+                <ion-item> 
+                    <ion-label>D.N.I: {{dni}}    </ion-label>
+                </ion-item>
+                        
+                <ion-item> 
+                    <ion-label>Fecha del Turno: {{startDate.locale('es').format('L')}}    </ion-label>
+                </ion-item>
+                <ion-item>
+                    <ion-label>El Turno comienza a las: {{startDate.format('LT')}} </ion-label>            
+                    
+                </ion-item>  
+                <ion-item>
+                    <ion-label>y termina a las: {{endDate.format('LT')}}</ion-label>
+                    <!--ion-input formControlName="duracion" type="number"></ion-input-->
+                    <!--ion-select formControlName="duracion"  >
+                        <ion-option value=15>15</ion-option>
+                        <ion-option value=30>30</ion-option>
+                        <ion-option value=60>60</ion-option>
+                    </ion-select-->
+                </ion-item>
+                <ion-item>
+                    <button ion-button [disabled]="!isValid()"   [color]="myColor" [block]=true [large]=true [round]="isRound">
+                            Confirmar
+                    </button>    
+                </ion-item>    
+                    <!-- ion-item>
+                        <ion-label color="primary">Inline Label</ion-label>
+                        <ion-input placeholder="Text Input"></ion-input>
+                      </ion-item>
+                    
+                      <ion-item>
+                        <ion-label color="primary" fixed>Fixed Label</ion-label>
+                        <ion-input type="tel" placeholder="Tel Input"></ion-input>
+                      </ion-item-->                
+            </ion-list>  
+    </form>            
+</ion-content>
