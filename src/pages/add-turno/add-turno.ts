@@ -1,11 +1,11 @@
 import { OnInit, Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
-//import { AutocompletePacienteServiceProvider  } from '../../providers/autocomplete-paciente-service/autocomplete-paciente-service';
+import { AutocompletePacienteServiceProvider  } from '../../providers/autocomplete-paciente-service/autocomplete-paciente-service';
 //import { AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database';
 import { FormGroup, FormBuilder, FormControl, Validators,ReactiveFormsModule  } from "@angular/forms";
 import { HomePage } from '../home/home';
-//import { TurnosServiceProvider } from '../../providers/turnos-service/turnos-service';
-//import { TurnoItem  } from '../../models/turnos/turno-item.interface';
+import { TurnosServiceProvider } from '../../providers/turnos-service/turnos-service';
+import { TurnoItem  } from '../../models/turnos/turno-item.interface';
 
 
 /**
@@ -38,9 +38,9 @@ export class AddTurnoPage implements OnInit {
   
 
   constructor(public navCtrl: NavController, public navParams: NavParams
-      //,public autocompleteService:AutocompletePacienteServiceProvider
+      ,public autocompleteService:AutocompletePacienteServiceProvider
       //,private database: AngularFireDatabase
-      //,public formBuilder: FormBuilder,private turnoService: TurnosServiceProvider 
+        ,public formBuilder: FormBuilder//,private turnoService: TurnosServiceProvider 
         )  {
       //this.turnos = database.list('turnos');
       this.idTurno = navParams.get('id');
@@ -81,14 +81,14 @@ export class AddTurnoPage implements OnInit {
 
   confirmar(){
 
-      /*const turnoItem = {} as TurnoItem;
+      const turnoItem = {} as TurnoItem;
       turnoItem.paciente = {} 
       turnoItem.start = this.startDate.format();
       turnoItem.end = this.endDate.format();
       turnoItem.title = this.apellidoNombre;
       turnoItem.paciente[this.$keyPaciente] = {apellido:this.apellido
                     ,nombre:this.nombre,dni:this.dni};
-      this.turnoService.addTurno(turnoItem,this.$keyPaciente);*/
+      //this.turnoService.addTurno(turnoItem,this.$keyPaciente);
       this.navCtrl.push(HomePage) ;
   }
 
@@ -101,11 +101,11 @@ export class AddTurnoPage implements OnInit {
   ngOnInit():any{
 //https://forum.ionicframework.com/t/forms-just-can-find-a-working-example/63453/2      
 
-      /*this.formAdd = this.formBuilder.group({
+      this.formAdd = this.formBuilder.group({
         //'pacienteId': ['',[Validators.required]],
           'duracion'   : ['', [Validators.required]]
       });
-      */
+      
       console.log('Duración: '+this.duracion);
       this.formAdd.get('duracion').setValue(this.duracion);      
   }

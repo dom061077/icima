@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "",
     "allowSyntheticDefaultImports": true,
     "declaration": false,
     "emitDecoratorMetadata": true,
@@ -12,6 +13,10 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "target": "es5"
+
+    ,"paths": { 
+      "@angular/*": ["node_modules/@angular/*"] 
+    }    
   },
   "include": [
     "src/**/*.ts"

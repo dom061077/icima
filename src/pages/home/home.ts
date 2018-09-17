@@ -2,6 +2,7 @@ import { Component, ViewChild} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {CalendarComponent} from "ap-angular-fullcalendar";
 import { AddTurnoPage } from "../add-turno/add-turno";
+import { Globals } from '../../app/globals'
 
 
 @Component({
@@ -25,7 +26,7 @@ export class HomePage {
         dayNames:['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],
         dayNamesShort:['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],
         minTime: '06:00:00',    
-        //slotDuration: Globals.slotDuration,
+        slotDuration: Globals.slotDuration,
         selectable: true,
         defaultView: 'agendaWeek' ,
         selectHelper: true,
@@ -47,7 +48,7 @@ export class HomePage {
           {
             title: 'Long Event',
             start: '2018-09-07',
-            end: '2018-09-10'
+            end: '2018-09-10'  
           },
           {
             id: 999,
