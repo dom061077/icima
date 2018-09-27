@@ -7,6 +7,10 @@ import { AlertController } from 'ionic-angular';
 import { UsuariosServiceProvider  } from '../../providers/usuarios-service/usuarios-service';
 import { ProfileItem } from '../../models/profile/profile-item.interface';
 
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+
+
+
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -23,10 +27,11 @@ export class LoginPage {
   constructor(public alertCtrl: AlertController,//private afAuth: AngularFireAuth,
               public navCtrl: NavController, public navParams: NavParams
               ,private userService:UsuariosServiceProvider
+              ,private http: HttpClient
             ) {
   }
  
-  async login(user: User) {
+   login(user: User) {
     /*try {
       const result = await this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
       if (result) {
@@ -41,6 +46,44 @@ export class LoginPage {
             });
           alert.present();
     }*/
+    /*console.log('Login en page');
+    var retorno=this.userService.login(user.email,user.password);
+    if (retorno ) 
+      this.navCtrl.setRoot(HomePage);
+    else  {
+      let alert = this.alertCtrl.create({
+        title: 'Mensaje',
+        message: 'Usuario o contraseña incorrectos',
+        buttons: ['OK']
+      });
+      alert.present();      
+    }*/
+    var apiUrl = 'http://localhost:8080/api/login';
+
+    this.http.post(apiUrl,JSON.stringify({username:user.email,password:user.password})
+    ,{headers:new HttpHeaders().set('Content-Type','application/json')
+
+    }
+    )
+    .subscribe(res=>{
+        if(res){
+            console.log("Access token: "+res);
+            let alert = this.alertCtrl.create({
+              title: 'Mensaje',
+              message: 'Usuario o contraseña incorrectos',
+              buttons: ['OK']
+            });
+            alert.present();      
+      
+        }
+        return false;    
+    },(err)=>{
+        console.log('Error en login');
+        return false;
+    });
+
+
+
   }
  
   async register(user: User) {

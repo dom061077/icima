@@ -7,6 +7,12 @@ import * as firebase from 'firebase';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Subscription  } from 'rxjs/Subscription';
 import { Subject } from 'rxjs/Subject';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { ReplaySubject } from '../../../node_modules/rxjs';
+import { Storage } from '@ionic/storage';
+import { AlertController } from 'ionic-angular';
+//import 'rxjs/add/operator/map';
+
 
 
 
@@ -29,7 +35,9 @@ export class UsuariosServiceProvider {
   lastKey: string='';  
   queryable:boolean;
 
-  constructor(/*private database:AngularFireDatabase,private afAuth: AngularFireAuth*/) {
+  apiUrl = 'http://localhost:8080/api/login';
+
+  constructor(private http: HttpClient,public storage: Storage) {
         /*this.subscriptionGetUserCount =  this.database.list('profiles',{
               query:{
                   orderByChild: 'apellido_nombre'
@@ -68,6 +76,28 @@ export class UsuariosServiceProvider {
             this.completedQueryObs.next(true);
         });
         */    
+  }
+
+  login(usuario:string,password:string){
+        let _storage = this.storage;
+        this.http.post(this.apiUrl,JSON.stringify({username:usuario,password:password})
+                ,{headers:new HttpHeaders().set('Content-Type','application/json')
+
+                }
+            )
+            .subscribe(res=>{
+                if(res){
+                    console.log("Access token: "+res);
+                   // _storage.set('token',res.access_token);
+                    return true;
+                }
+                return false;    
+            },(err)=>{
+                console.log('Error en login');
+                return false;
+            });
+
+        
   }
 
     async addUser(/*profileuser:ProfileUserItem*/){

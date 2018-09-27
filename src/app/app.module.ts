@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { IonicStorageModule } from '@ionic/storage';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -15,7 +16,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import * as $ from 'jquery'; // For Angular 6
 import {CalendarModule} from "ap-angular-fullcalendar";
-import { HttpModule } from '@angular/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AutocompletePacienteServiceProvider } from '../providers/autocomplete-paciente-service/autocomplete-paciente-service';
 import { AutocompleteObrasocialServiceProvider } from '../providers/autocomplete-obrasocial-service/autocomplete-obrasocial-service';
@@ -31,6 +31,10 @@ import { UsuariosServiceProvider } from '../providers/usuarios-service/usuarios-
 import { ProfesionalesProvider } from '../providers/profesionales/profesionales-service';
 import { SeguridadServiceProvider } from '../providers/usuarios-service/seguridad-service';
 
+import { InterceptorProvider  } from '../providers/interceptors/interceptor-provider';
+
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+
 
 
 @NgModule({
@@ -43,11 +47,12 @@ import { SeguridadServiceProvider } from '../providers/usuarios-service/segurida
   imports: [
     BrowserModule,
     AutoCompleteModule,    
-    HttpModule,
     FormsModule,
     ReactiveFormsModule,
     CalendarModule,
     IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot(),
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -57,8 +62,9 @@ import { SeguridadServiceProvider } from '../providers/usuarios-service/segurida
   ],
   providers: [
     StatusBar,
-    SplashScreen,
+    SplashScreen,    
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+
     AutocompletePacienteServiceProvider,
     AutocompleteObrasocialServiceProvider,
     AutocompleteProvinciaProvider,
@@ -69,8 +75,9 @@ import { SeguridadServiceProvider } from '../providers/usuarios-service/segurida
     UserValidator,
     UsuariosServiceProvider,
     ProfesionalesProvider,
-    SeguridadServiceProvider
-    
+    SeguridadServiceProvider,
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorProvider, multi: true },    
   ]
+
 })
 export class AppModule {}

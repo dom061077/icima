@@ -1,5 +1,5 @@
-import { User } from '../../models/user';
-import { ProfileItem } from '../../models/profile/profile-item.interface';
+import { User } from '../user';
+import { ProfileItem } from './profile-item.interface';
 
 export interface ProfileUserItem{
     user: User,
