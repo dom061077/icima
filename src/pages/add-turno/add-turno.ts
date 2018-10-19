@@ -90,14 +90,20 @@ export class AddTurnoPage implements OnInit {
       turnoItem.title = this.apellidoNombre;
       turnoItem.paciente[this.$keyPaciente] = {apellido:this.apellido
                     ,nombre:this.nombre,dni:this.dni};
-      var apiUrl='http://localhost:8080/api/addturno';  
+      /*var apiUrl='http://localhost:8080/api/addturno';  
       this.http.post(apiUrl,JSON.stringify(
         {fechaStart:this.startDate.format(),fechaEnd:this.endDate.format()
           ,titulo:'TITULO DE TURNO  PRO'
         })
           ,{headers:new HttpHeaders().set('Content-Type','application/json')
         }
-      ).subscribe();
+      ).subscribe();/
+      */
+     var apiUrl='http://localhost:8080/api/paciente/search';
+     this.http.get(apiUrl,{filter:'medina'})
+
+
+
       //this.turnoService.addTurno(turnoItem,this.$keyPaciente);
 
       //this.navCtrl.push(HomePage) ;
