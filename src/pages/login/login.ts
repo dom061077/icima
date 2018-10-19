@@ -8,6 +8,7 @@ import { UsuariosServiceProvider  } from '../../providers/usuarios-service/usuar
 import { ProfileItem } from '../../models/profile/profile-item.interface';
 
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { Storage } from '@ionic/storage';
 
 
 
@@ -24,13 +25,23 @@ export class LoginPage {
 
   user = {} as User;
 
-  constructor(public alertCtrl: AlertController,//private afAuth: AngularFireAuth,
+  constructor(private storage: Storage,public alertCtrl: AlertController,//private afAuth: AngularFireAuth,
               public navCtrl: NavController, public navParams: NavParams
               ,private userService:UsuariosServiceProvider
               ,private http: HttpClient
             ) {
   }
- 
+
+  test(){
+      var appUrl = 'http://localhost:8080/api/generalLookup/cie10';
+      this.http.get(appUrl).subscribe(res=>{
+          console.log(res);
+      });
+      
+
+      
+  }
+  
    login(user: User) {
     /*try {
       const result = await this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password);
@@ -58,31 +69,44 @@ export class LoginPage {
       });
       alert.present();      
     }*/
-    var apiUrl = 'http://localhost:8080/api/login';
 
-    this.http.post(apiUrl,JSON.stringify({username:user.email,password:user.password})
-    ,{headers:new HttpHeaders().set('Content-Type','application/json')
 
-    }
-    )
-    .subscribe(res=>{
-        if(res){
-            console.log("Access token: "+res);
-            let alert = this.alertCtrl.create({
-              title: 'Mensaje',
-              message: 'Usuario o contraseña incorrectos',
-              buttons: ['OK']
-            });
-            alert.present();      
-      
-        }
-        return false;    
-    },(err)=>{
-        console.log('Error en login');
-        return false;
+    /*var apiUrl = 'http://localhost:8080/api/login';
+
+    if (user){
+          this.http.post(apiUrl,JSON.stringify({username:user.email,password:user.password})
+          ,{headers:new HttpHeaders().set('Content-Type','application/json')
+
+          }
+          )
+          .subscribe(res=>{
+              if(res){
+                if (res.access_token)
+                  this.storage.set('access_token',res.access_token); 
+              }else{
+                console.log("Access token: "+res);
+                let alert = this.alertCtrl.create({
+                  title: 'Mensaje',
+                  message: 'Usuario o contraseña incorrectos',
+                  buttons: ['OK']
+                });
+                alert.present();      
+
+              }
+
+              console.log('En el llamado a login');
+              return false;    
+          },(err)=>{
+              console.log('Error en login');
+              return false;
+          });
+      }   */   
+    //loginObs.unsubscribe();
+    this.userService.login(user.email,user.password).then(data =>{
+        if ('roles' in data){
+            this.navCtrl.setRoot(HomePage);
+        } 
     });
-
-
 
   }
  

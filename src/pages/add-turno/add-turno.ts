@@ -6,6 +6,7 @@ import { FormGroup, FormBuilder, FormControl, Validators,ReactiveFormsModule  } 
 import { HomePage } from '../home/home';
 import { TurnosServiceProvider } from '../../providers/turnos-service/turnos-service';
 import { TurnoItem  } from '../../models/turnos/turno-item.interface';
+import { HttpClient,HttpHeaders } from '../../../node_modules/@angular/common/http';
 
 
 /**
@@ -41,6 +42,7 @@ export class AddTurnoPage implements OnInit {
       ,public autocompleteService:AutocompletePacienteServiceProvider
       //,private database: AngularFireDatabase
         ,public formBuilder: FormBuilder//,private turnoService: TurnosServiceProvider 
+        ,private http: HttpClient
         )  {
       //this.turnos = database.list('turnos');
       this.idTurno = navParams.get('id');
@@ -51,7 +53,7 @@ export class AddTurnoPage implements OnInit {
       console.log('Duracion en constructor: '+navParams.get('duracion'));
       this.duracion = navParams.get('duracion');
 
-      if(!this.idTurno){
+      if(!this.idTurno){ 
           console.log('No tiene ID de turno');
       }
     
@@ -88,8 +90,17 @@ export class AddTurnoPage implements OnInit {
       turnoItem.title = this.apellidoNombre;
       turnoItem.paciente[this.$keyPaciente] = {apellido:this.apellido
                     ,nombre:this.nombre,dni:this.dni};
+      var apiUrl='http://localhost:8080/api/addturno';  
+      this.http.post(apiUrl,JSON.stringify(
+        {fechaStart:this.startDate.format(),fechaEnd:this.endDate.format()
+          ,titulo:'TITULO DE TURNO  PRO'
+        })
+          ,{headers:new HttpHeaders().set('Content-Type','application/json')
+        }
+      ).subscribe();
       //this.turnoService.addTurno(turnoItem,this.$keyPaciente);
-      this.navCtrl.push(HomePage) ;
+
+      //this.navCtrl.push(HomePage) ;
   }
 
   pacienteValidator(control: FormControl): {[s: string]: boolean} {

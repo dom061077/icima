@@ -3,6 +3,9 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/map';
 //import { AngularFireDatabase,FirebaseListObservable,FirebaseObjectObservable} from 'angularfire2/database';
 import * as moment from 'moment';
+import { Globals } from '../../app/globals'
+
+  
 //import { TurnoItem  } from '../../models/turnos/turno-item.interface';
 
 /*
@@ -13,7 +16,7 @@ import * as moment from 'moment';
 */
 @Injectable()
 export class TurnosServiceProvider {
-
+    apiUrl = Globals.httphost+'/api/login';
   constructor(/*private database: AngularFireDatabase*/) {
     
   }
@@ -53,6 +56,7 @@ export class TurnosServiceProvider {
       this.database.object('/').update(updateObject);
       */
       //console.log(updateObject);
+      
   }
 
 deleteTurno(/*turnoItem:TurnoItem*/){

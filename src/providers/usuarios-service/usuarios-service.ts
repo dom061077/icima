@@ -11,6 +11,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { ReplaySubject } from '../../../node_modules/rxjs';
 import { Storage } from '@ionic/storage';
 import { AlertController } from 'ionic-angular';
+import { Globals } from '../../app/globals'
 //import 'rxjs/add/operator/map';
 
 
@@ -35,7 +36,7 @@ export class UsuariosServiceProvider {
   lastKey: string='';  
   queryable:boolean;
 
-  apiUrl = 'http://localhost:8080/api/login';
+  apiUrl = Globals.httphost+'/api/login';
 
   constructor(private http: HttpClient,public storage: Storage) {
         /*this.subscriptionGetUserCount =  this.database.list('profiles',{
@@ -76,26 +77,26 @@ export class UsuariosServiceProvider {
             this.completedQueryObs.next(true);
         });
         */    
-  }
+  } 
 
-  login(usuario:string,password:string){
+   login(usuario_par:string,password_par:string){
         let _storage = this.storage;
-        this.http.post(this.apiUrl,JSON.stringify({username:usuario,password:password})
-                ,{headers:new HttpHeaders().set('Content-Type','application/json')
+        return new Promise(resolve => 
+        this.http.post(this.apiUrl,JSON.stringify({username:usuario_par,password:password_par})
+        ,{headers:new HttpHeaders().set('Content-Type','application/json')
 
-                }
-            )
-            .subscribe(res=>{
-                if(res){
-                    console.log("Access token: "+res);
-                   // _storage.set('token',res.access_token);
-                    return true;
-                }
-                return false;    
-            },(err)=>{
-                console.log('Error en login');
-                return false;
-            });
+        }
+        ) 
+        .subscribe(res=>{ 
+            if(typeof res.access_token !== 'undefined'){
+                this.storage.set('access_token',res.access_token); 
+                resolve(res)  ;
+            }
+        },(err)=>{
+            console.log('Error en login');
+            return false;
+        })
+    );
 
         
   }
