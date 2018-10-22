@@ -3,6 +3,8 @@ import { Http } from '@angular/http';
 import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Globals } from '../../app/globals'
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 //import { AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database';
 
 
@@ -16,6 +18,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 */
 @Injectable()
 export class AutocompletePacienteServiceProvider implements AutoCompleteService  {
+  apiUrl = Globals.httphost+'/api/paciente/search';
   labelAttribute = "apellidoNombre";
   pacientesList=[];
   //items: FirebaseListObservable<any>
@@ -30,7 +33,7 @@ export class AutocompletePacienteServiceProvider implements AutoCompleteService 
    infiniteScroll:any;
 
 
-constructor( /*private database: AngularFireDatabase */) {
+constructor(private http: HttpClient /*private database: AngularFireDatabase */) {
            /* this.database.list('/pacientes' , {
                 query: {
                     orderByChild: 'apellido_nombre'
@@ -93,19 +96,19 @@ constructor( /*private database: AngularFireDatabase */) {
   }
 
    getResults(keyword:string) {
-    /*return this.http.get("https://restcountries.eu/rest/v1/name/"+keyword)
+    return this.http.get(this.apiUrl+'?filter='+keyword)
       .map(
         result =>
         {
-          return result.json()
-            .filter(item => item.name.toLowerCase().startsWith(keyword.toLowerCase()) )
-        });*/
+          return result.JSON.filter(item => item.name.toLowerCase().startsWith(keyword.toLowerCase()) )
+        });
 
         /*while (this.pacientesList.length>0){
           this.pacientesList.pop();
 
         }*/
-        if(keyword){
+        
+        /*if(keyword){
             this.endat.next(keyword.toUpperCase()+'\uf8ff');
             this.startat.next(keyword.toUpperCase());
             this.showSpinner = true;
@@ -114,7 +117,8 @@ constructor( /*private database: AngularFireDatabase */) {
             this.endat.next('\uf8ff');
             this.startat.next('');
         }        
-      return JSON.parse(JSON.stringify(this.pacientesList)).filter(item => item.apellidoNombre.toLowerCase().startsWith(keyword.toLowerCase()) );    
+        return JSON.parse(JSON.stringify(this.pacientesList)).filter(item => item.apellidoNombre.toLowerCase().startsWith(keyword.toLowerCase()) );    
+        */
       
 
   }
