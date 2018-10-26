@@ -22,7 +22,7 @@ export class InterceptorProvider implements HttpInterceptor {
  
         let promise = this.storage.get('access_token');
         let loading = this.loadingCtrl.create({content:'trabajando...'});
-        loading.present();
+        //loading.present();
         return Observable.fromPromise(promise)
             .mergeMap(token => {
                 let clonedReq = this.addToken(request, token);
@@ -59,7 +59,7 @@ export class InterceptorProvider implements HttpInterceptor {
                     .do((event:HttpEvent<any>)=>{
                         if ( event instanceof HttpResponse ) {
                             console.log('Terminado de recibir la respuesta');
-                            loading.dismiss();    
+                            //loading.dismiss();    
                         }                    
 
                     }

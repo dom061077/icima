@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Globals } from '../../app/globals'
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { Observable } from '../../../node_modules/rxjs';
 //import { AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database';
 
 
@@ -20,7 +21,16 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class AutocompletePacienteServiceProvider implements AutoCompleteService  {
   apiUrl = Globals.httphost+'/api/paciente/search';
   labelAttribute = "apellidoNombre";
-  pacientesList=[];
+  pacientesList=
+    [ {apellidoNombre:"GARAMENDI SUSANA ESTER"}
+    ,{apellidoNombre:"BAZAN NOEMI DEL CARMEN"}
+    ,{apellidoNombre:"GOMEZ PATRICIA CAROLINA"}
+    ,{apellidoNombre:"JIMENEZ JESUS ROBUSTIANO"}
+    ,{apellidoNombre:"ROMERO JUANA OLGA"}
+    ,{apellidoNombre:"SANTANA JUAREZ ROCIO MERCEDES"}
+    ,{apellidoNombre:"SOSA ANTONIA DEL CARMEN"}
+    ,{apellidoNombre:"GOMEZ BRAHIAM"},{apellidoNombre:"SORIA LUCIA MERCEDES"}
+    ,{apellidoNombre:"GIMENEZ LASCANO FELICITAS"}];
   //items: FirebaseListObservable<any>
   showSpinner:boolean=false;
 
@@ -92,16 +102,23 @@ constructor(private http: HttpClient /*private database: AngularFireDatabase */)
                 this.showSpinner = false;       
                 console.log('Se TERMINO DE DESCARGAR EL LIST');
             });     */     
+            
 
   }
 
    getResults(keyword:string) {
-    return this.http.get(this.apiUrl+'?filter='+keyword)
-      .map(
-        result =>
-        {
-          return result.JSON.filter(item => item.name.toLowerCase().startsWith(keyword.toLowerCase()) )
-        });
+        
+                
+            return this.http.get(this.apiUrl+'?filter='+keyword)
+                    .map(
+                        result =>
+                            {
+                                //return result.list.JSON.filter(item => item.nombre.toLowerCase().startsWith(keyword.toLowerCase()) )
+                                return JSON.parse(JSON.stringify(result.list));//.filter(item=>item.apellidoNombre.toLowerCase().startsWith(keyword.toLowerCase()));
+                            }
+                    );
+         
+
 
         /*while (this.pacientesList.length>0){
           this.pacientesList.pop();

@@ -100,7 +100,7 @@ export class AddTurnoPage implements OnInit {
       ).subscribe();/
       */
      var apiUrl='http://localhost:8080/api/paciente/search';
-     this.http.get(apiUrl,{filter:'medina'})
+     
 
 
 
