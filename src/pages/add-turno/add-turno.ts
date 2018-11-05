@@ -7,6 +7,7 @@ import { HomePage } from '../home/home';
 import { TurnosServiceProvider } from '../../providers/turnos-service/turnos-service';
 import { TurnoItem  } from '../../models/turnos/turno-item.interface';
 import { HttpClient,HttpHeaders } from '../../../node_modules/@angular/common/http';
+import { Globals } from '../../app/globals';
 
 
 /**
@@ -22,6 +23,7 @@ import { HttpClient,HttpHeaders } from '../../../node_modules/@angular/common/ht
   templateUrl: 'add-turno.html',
 })
 export class AddTurnoPage implements OnInit {
+  addTurnoUrl = Globals.httphost+'/api/addturno';
   formAdd: FormGroup;
   //turnos : FirebaseListObservable<any[]>;
   idTurno:any;
@@ -57,6 +59,14 @@ export class AddTurnoPage implements OnInit {
           console.log('No tiene ID de turno');
       }
     
+      this.formAdd = this.formBuilder.group({
+        //'pacienteId': ['',[Validators.required]],
+          'duracion'   : ['', [Validators.required]]
+      });
+      
+      console.log('Duración: '+this.duracion);
+      this.formAdd.get('duracion').setValue(this.duracion);    
+
 
   }
 
@@ -66,7 +76,7 @@ export class AddTurnoPage implements OnInit {
   */ 
   itemSelected(event){
 
-      this.$keyPaciente = event.$key;
+      this.$keyPaciente = event.id;
       //this.formAdd.controls['duracion'].setValue(event.$key);
       this.apellido = event.apellido;
       this.apellidoNombre = event.apellidoNombre,
@@ -90,18 +100,14 @@ export class AddTurnoPage implements OnInit {
       turnoItem.title = this.apellidoNombre;
       turnoItem.paciente[this.$keyPaciente] = {apellido:this.apellido
                     ,nombre:this.nombre,dni:this.dni};
-      /*var apiUrl='http://localhost:8080/api/addturno';  
-      this.http.post(apiUrl,JSON.stringify(
+      this.http.post(this.addTurnoUrl,JSON.stringify(
         {fechaStart:this.startDate.format(),fechaEnd:this.endDate.format()
           ,titulo:'TITULO DE TURNO  PRO'
         })
           ,{headers:new HttpHeaders().set('Content-Type','application/json')
         }
-      ).subscribe();/
-      */
-     var apiUrl='http://localhost:8080/api/paciente/search';
+      ).subscribe();
      
-
 
 
       //this.turnoService.addTurno(turnoItem,this.$keyPaciente);
@@ -118,13 +124,7 @@ export class AddTurnoPage implements OnInit {
   ngOnInit():any{
 //https://forum.ionicframework.com/t/forms-just-can-find-a-working-example/63453/2      
 
-      this.formAdd = this.formBuilder.group({
-        //'pacienteId': ['',[Validators.required]],
-          'duracion'   : ['', [Validators.required]]
-      });
-      
-      console.log('Duración: '+this.duracion);
-      this.formAdd.get('duracion').setValue(this.duracion);      
+  
   }
 
   isValid() {

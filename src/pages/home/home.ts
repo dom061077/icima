@@ -1,4 +1,4 @@
-import { Component, ViewChild} from '@angular/core';
+import { Component, ViewChild, NgZone} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {CalendarComponent} from "ap-angular-fullcalendar";
 import { AddTurnoPage } from "../add-turno/add-turno";
@@ -125,8 +125,10 @@ export class HomePage {
       }
   
       private selectEvent(start, end, allDay){
-              this.navCtrl.push(AddTurnoPage,{startDate:start,endDate:end});
-      }
+        this.zone.run(() =>{
+            this.navCtrl.push(AddTurnoPage,{startDate:start,endDate:end});
+        });
+    }
   
       private eventClick(event,jsEvent,view){
            // this.navCtrl.push(ViewTurnoPage,{id:event.id
@@ -143,7 +145,7 @@ export class HomePage {
     }
   
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController,public zone:NgZone) {
 
   }
 

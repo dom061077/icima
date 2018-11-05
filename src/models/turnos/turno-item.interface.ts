@@ -4,9 +4,5 @@ export interface TurnoItem{
     start: any;
     end: any;
     title: string;
-    paciente:{
-        //apellido: string;
-        //nombre: string;
-        //dni: string;
-    }   
+    paciente:
 }

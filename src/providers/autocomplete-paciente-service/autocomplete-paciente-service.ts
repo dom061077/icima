@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import {Injectable} from "@angular/core";
 import 'rxjs/add/operator/map';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-import { Globals } from '../../app/globals'
+import { Globals } from '../../app/globals';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from '../../../node_modules/rxjs';
 //import { AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database';
