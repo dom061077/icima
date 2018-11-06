@@ -33,7 +33,7 @@ export class AddTurnoPage implements OnInit {
   duracion:number;
   endDate:any;
   
-  $keyPaciente:string;
+  $keyPaciente:number;
   apellidoNombre:string;
   apellido:string;
   nombre:string;
@@ -94,16 +94,16 @@ export class AddTurnoPage implements OnInit {
   confirmar(){
 
       const turnoItem = {} as TurnoItem;
-      turnoItem.paciente = {} 
       turnoItem.start = this.startDate.format();
       turnoItem.end = this.endDate.format();
       turnoItem.title = this.apellidoNombre;
-      turnoItem.paciente[this.$keyPaciente] = {apellido:this.apellido
-                    ,nombre:this.nombre,dni:this.dni};
+      turnoItem.pacienteId = this.$keyPaciente;
       this.http.post(this.addTurnoUrl,JSON.stringify(
-        {fechaStart:this.startDate.format(),fechaEnd:this.endDate.format()
-          ,titulo:'TITULO DE TURNO  PRO'
-        })
+        //{fechaStart:this.startDate.format(),fechaEnd:this.endDate.format()
+        //  ,titulo:'TITULO DE TURNO  PRO'
+        //}
+        turnoItem
+      )
           ,{headers:new HttpHeaders().set('Content-Type','application/json')
         }
       ).subscribe();
