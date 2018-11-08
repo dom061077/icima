@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import {CalendarComponent} from "ap-angular-fullcalendar";
 import { AddTurnoPage } from "../add-turno/add-turno";
 import { Globals } from '../../app/globals'
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 
 @Component({
@@ -10,7 +11,9 @@ import { Globals } from '../../app/globals'
   templateUrl: 'home.html'
 })
 export class HomePage {
-
+   profesionales = [];
+  gender;
+  proUrl=Globals.httphost+'/api/generalLookup/profesionales.json'; 
 
   @ViewChild(CalendarComponent) myCalendar: CalendarComponent;
     calendarOptions:Object = {
@@ -145,8 +148,10 @@ export class HomePage {
     }
   
 
-  constructor(public navCtrl: NavController,public zone:NgZone) {
-
+  constructor(public navCtrl: NavController,public zone:NgZone,private http: HttpClient) {
+      this.http.get(this.proUrl).subscribe(result=>{
+        this.profesionales=  result;
+      });
   }
 
 }

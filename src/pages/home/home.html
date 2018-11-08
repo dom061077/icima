@@ -3,7 +3,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>TURNOS</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -15,5 +15,15 @@
   </p>
 
   <button ion-button secondary menuToggle>Toggle Menu</button-->
+    <ion-item>
+      <ion-label floating>Profesional:</ion-label>
+      <ion-select [(ngModel)]="gender">
+        <ion-option *ngFor="let profesional of profesionales" [value] = "profesional">{{profesional}}</ion-option>        
+
+
+
+      </ion-select>
+    </ion-item>
+
     <angular2-fullcalendar [options]="calendarOptions"></angular2-fullcalendar>    
 </ion-content>

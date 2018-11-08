@@ -102,7 +102,7 @@ export class AddTurnoPage implements OnInit {
         //{fechaStart:this.startDate.format(),fechaEnd:this.endDate.format()
         //  ,titulo:'TITULO DE TURNO  PRO'
         //}
-        turnoItem
+        turnoItem 
       )
           ,{headers:new HttpHeaders().set('Content-Type','application/json')
         }
