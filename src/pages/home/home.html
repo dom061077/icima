@@ -18,7 +18,7 @@
     <ion-item>
       <ion-label floating>Profesional:</ion-label>
       <ion-select [(ngModel)]="gender">
-        <ion-option *ngFor="let profesional of profesionales" [value] = "profesional">{{profesional}}</ion-option>        
+        <ion-option *ngFor="let profesional of profesionales" [value] = "profesional.id">{{profesional.nombre}}</ion-option>        
 
 
 

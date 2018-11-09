@@ -38,6 +38,7 @@ export class AddTurnoPage implements OnInit {
   apellido:string;
   nombre:string;
   dni:string;
+  profesionalId:number;
   
 
   constructor(public navCtrl: NavController, public navParams: NavParams
@@ -54,6 +55,7 @@ export class AddTurnoPage implements OnInit {
       this.hora = navParams.get('hora');
       console.log('Duracion en constructor: '+navParams.get('duracion'));
       this.duracion = navParams.get('duracion');
+      this.profesionalId = navParams.get('profesionalId');
 
       if(!this.idTurno){ 
           console.log('No tiene ID de turno');
@@ -98,6 +100,7 @@ export class AddTurnoPage implements OnInit {
       turnoItem.end = this.endDate.format();
       turnoItem.title = this.apellidoNombre;
       turnoItem.pacienteId = this.$keyPaciente;
+      turnoItem.profesionalId = this.profesionalId;
       this.http.post(this.addTurnoUrl,JSON.stringify(
         //{fechaStart:this.startDate.format(),fechaEnd:this.endDate.format()
         //  ,titulo:'TITULO DE TURNO  PRO'

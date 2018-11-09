@@ -11,8 +11,8 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
   templateUrl: 'home.html'
 })
 export class HomePage {
-   profesionales = [];
-  gender;
+  profesionales;
+  profesionalId;
   proUrl=Globals.httphost+'/api/generalLookup/profesionales.json'; 
 
   @ViewChild(CalendarComponent) myCalendar: CalendarComponent;
@@ -129,7 +129,7 @@ export class HomePage {
   
       private selectEvent(start, end, allDay){
         this.zone.run(() =>{
-            this.navCtrl.push(AddTurnoPage,{startDate:start,endDate:end});
+            this.navCtrl.push(AddTurnoPage,{startDate:start,endDate:end,profesionalId:this.profesionalId});
         });
     }
   
@@ -150,7 +150,7 @@ export class HomePage {
 
   constructor(public navCtrl: NavController,public zone:NgZone,private http: HttpClient) {
       this.http.get(this.proUrl).subscribe(result=>{
-        this.profesionales=  result;
+        this.profesionales =  result.list;
       });
   }
 

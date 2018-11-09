@@ -4,5 +4,6 @@ export interface TurnoItem{
     start: any;
     end: any;
     title: string;
-    pacienteId: number
+    pacienteId: number;
+    profesionalId: number;
 }
