@@ -1,6 +1,6 @@
 
 export interface TurnoItem{
-    $key : string;
+    id : string;
     start: any;
     end: any;
     title: string;

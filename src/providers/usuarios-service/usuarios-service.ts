@@ -87,7 +87,7 @@ export class UsuariosServiceProvider {
 
         }
         ) 
-        .subscribe(res=>{ 
+        .subscribe((res:any)=>{ 
             if(typeof res.access_token !== 'undefined'){
                 this.storage.set('access_token',res.access_token); 
                 resolve(res)  ;

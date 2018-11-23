@@ -1,9 +1,13 @@
 import { Component, ViewChild, NgZone} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {CalendarComponent} from "ap-angular-fullcalendar";
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AddTurnoPage } from "../add-turno/add-turno";
 import { Globals } from '../../app/globals'
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import * as moment from 'moment';
+import { Observable } from 'rxjs/Rx';
+import { TurnoItem  } from '../../models/turnos/turno-item.interface';
 
 
 @Component({
@@ -14,6 +18,13 @@ export class HomePage {
   profesionales;
   profesionalId;
   proUrl=Globals.httphost+'/api/generalLookup/profesionales.json'; 
+  turnosUrl=Globals.httphost+'/api/listturnos';
+  updateTurnosUrl=Globals.httphost+'/api/updateturno';
+  turnos = [];
+  data: any;
+  startat:BehaviorSubject<string> = new BehaviorSubject<string>('');
+  profesionalId$:BehaviorSubject<number> = new BehaviorSubject<number>(0);
+  
 
   @ViewChild(CalendarComponent) myCalendar: CalendarComponent;
     calendarOptions:Object = {
@@ -42,8 +53,8 @@ export class HomePage {
         select : this.selectEvent.bind(this),
         eventClick: this.eventClick.bind(this),
         eventResize: this.onEventResize.bind(this),
-        //events: this.loadEvents.bind(this)
-        events: [
+        events: this.loadEvents.bind(this)
+        /*events: [
           {
             title: 'All Day Event',
             start: '2018-09-01'
@@ -98,18 +109,25 @@ export class HomePage {
             url: 'http://google.com/',
             start: '2018-09-28'
           }
-        ]        
+        ] */       
 
   
-      };
+      }; 
 
       private eventDrop( event, delta, revertFunc, jsEvent, ui, view ){
         //this.turnosService.moverTurno(event.id,event.start,event.end);
-          console.log('Evento eventDrop');
+          const turnoItem = {} as TurnoItem;
+          turnoItem.start = event.start;
+          turnoItem.end = event.end;
+          turnoItem.id = event.id;
+          this.http.post(this.updateTurnosUrl,JSON.stringify(turnoItem)
+            ,{headers:new HttpHeaders().set('Content-Type','application/json')}
+          ).subscribe();
+
       }
   
       private loadEvents(start, end, timezone, callback){
-        //  callback(this.events$);  
+          callback(this.turnos);  
       }
    
       private onEventResize( event, delta, revertFunc, jsEvent, ui, view ){
@@ -124,8 +142,8 @@ export class HomePage {
        //   ,duracion:Globals.duracion
        //   ,dateFormat:date.locale('es').format('L'),hora:date.format('LT')});
           console.log('Evento dayClick');
-  
-      }
+   
+      } 
   
       private selectEvent(start, end, allDay){
         this.zone.run(() =>{
@@ -140,8 +158,8 @@ export class HomePage {
            console.log('Evento eventClick');
       }
   
-  
-  
+   
+   
     volverFecha(){
   
         this.myCalendar.fullCalendar('gotoDate','2017-10-06T17:00:00');
@@ -149,9 +167,80 @@ export class HomePage {
   
 
   constructor(public navCtrl: NavController,public zone:NgZone,private http: HttpClient) {
-      this.http.get(this.proUrl).subscribe(result=>{
+      this.getTurnos();
+      
+      this.http.get(this.proUrl).subscribe((result:any)=>{
         this.profesionales =  result.list;
+        this.profesionalId = result.list[0].id;
+        this.profesionalId$.next(this.profesionalId);
       });
+       
+  }
+ 
+
+
+  ngAfterViewInit(){
+    const momento = moment();
+    momento.minutes(0);
+    this.myCalendar.fullCalendar('gotoDate',momento.format());
+
+    /*this.turnosList.subscribe(items=>{
+            
+            while (this.events$.length>0){
+              this.events$.pop();
+
+            }
+            console.log('Antes de ingresar al foreach: items:'+items);
+            items.forEach(element => {
+              console.log('Elemento: '+element.title);
+              this.events$.push({
+                id: element.$key,
+                title:element.title,
+                start:element.start,
+                end: element.end
+              }); 
+            });
+            this.myCalendar.fullCalendar( 'refetchEvents' );
+            
+        
+    });  */
+ 
+  }
+
+  private getTurnos() {
+    this.data = Observable
+    .interval(5000)
+    //.mergeMapTo()
+    .subscribe(data=>{
+        /*data.forEach(element =>{
+            console.log('Elemento: '+element);
+
+        });*/
+        this.fetchTurnosData().subscribe((dataturnos:any)=>{
+            this.turnos.splice(0, this.turnos.length);
+            this.turnos = dataturnos; 
+            this.myCalendar.fullCalendar( 'refetchEvents' );
+
+        });
+        
+
+    });
+  }
+
+  private fetchTurnosData() {
+    return this.http.get(this.turnosUrl+'?profesionalId='+this.profesionalId$.getValue());
+  }  
+ 
+ 
+
+  onProfesionalChange(){
+      this.profesionalId$.next(this.profesionalId);
+      this.fetchTurnosData().subscribe((dataturnos:any)=>{
+        this.turnos.splice(0, this.turnos.length);
+        this.turnos = dataturnos; 
+        this.myCalendar.fullCalendar( 'refetchEvents' );
+
+    });      
   }
 
 }

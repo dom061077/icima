@@ -8,7 +8,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from '../../../node_modules/rxjs';
 //import { AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database';
 
-
+  
 
 
 /*
@@ -106,12 +106,12 @@ constructor(private http: HttpClient /*private database: AngularFireDatabase */)
 
   }
 
-   getResults(keyword:string) {
+   getResults(keyword:string) { 
         
                 
             return this.http.get(this.apiUrl+'?filter='+keyword)
                     .map(
-                        result =>
+                        (result:any) =>
                             {
                                 //return result.list.JSON.filter(item => item.nombre.toLowerCase().startsWith(keyword.toLowerCase()) )
                                 return JSON.parse(JSON.stringify(result.list));//.filter(item=>item.apellidoNombre.toLowerCase().startsWith(keyword.toLowerCase()));
@@ -119,7 +119,7 @@ constructor(private http: HttpClient /*private database: AngularFireDatabase */)
                     );
          
 
-
+ 
         /*while (this.pacientesList.length>0){
           this.pacientesList.pop();
 

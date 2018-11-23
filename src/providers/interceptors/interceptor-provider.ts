@@ -41,7 +41,19 @@ export class InterceptorProvider implements HttpInterceptor {
                             if(error.status == 400){
                                 msg = 'Ingrese usuario y contraseña';
                                 title = 'Error';
-                            }             
+                            }     
+                            if(error.status == 422){
+                                title = 'Error en ingreso de datos';
+                                if(error.error.total>1){
+                                    msg='<ul>'
+                                    error.error._embedded.errors.forEach(element=>{
+                                        msg=msg+'<li>'+element.message+'</li>';
+                                    });     
+                                    msg=msg+'</ul>';                                       
+                                }else{
+                                    msg = msg+ '<ul><li>'+error.error.message+'</li></ul>';
+                                }
+                            }
      
                             let alert = this.alertCtrl.create({
                                 title: title,

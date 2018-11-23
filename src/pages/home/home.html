@@ -17,11 +17,8 @@
   <button ion-button secondary menuToggle>Toggle Menu</button-->
     <ion-item>
       <ion-label floating>Profesional:</ion-label>
-      <ion-select [(ngModel)]="profesionalId">
+      <ion-select [(ngModel)]="profesionalId" (ionChange)="onProfesionalChange()">
         <ion-option *ngFor="let profesional of profesionales" [value] = "profesional.id">{{profesional.nombre}}</ion-option>        
-
-
-
       </ion-select>
     </ion-item>
 

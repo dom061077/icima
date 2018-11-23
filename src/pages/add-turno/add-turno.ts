@@ -1,4 +1,4 @@
-import { OnInit, Component } from '@angular/core';
+import { OnInit, Component,ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { AutocompletePacienteServiceProvider  } from '../../providers/autocomplete-paciente-service/autocomplete-paciente-service';
 //import { AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database';
@@ -8,6 +8,7 @@ import { TurnosServiceProvider } from '../../providers/turnos-service/turnos-ser
 import { TurnoItem  } from '../../models/turnos/turno-item.interface';
 import { HttpClient,HttpHeaders } from '../../../node_modules/@angular/common/http';
 import { Globals } from '../../app/globals';
+
 
 
 /**
@@ -23,6 +24,9 @@ import { Globals } from '../../app/globals';
   templateUrl: 'add-turno.html',
 })
 export class AddTurnoPage implements OnInit {
+  turnos = [];
+
+
   addTurnoUrl = Globals.httphost+'/api/addturno';
   formAdd: FormGroup;
   //turnos : FirebaseListObservable<any[]>;
@@ -115,7 +119,7 @@ export class AddTurnoPage implements OnInit {
 
       //this.turnoService.addTurno(turnoItem,this.$keyPaciente);
 
-      //this.navCtrl.push(HomePage) ;
+      this.navCtrl.push(HomePage) ;
   }
 
   pacienteValidator(control: FormControl): {[s: string]: boolean} {
@@ -129,6 +133,9 @@ export class AddTurnoPage implements OnInit {
 
   
   }
+
+
+
 
   isValid() {
     
