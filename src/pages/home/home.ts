@@ -132,7 +132,13 @@ export class HomePage {
    
       private onEventResize( event, delta, revertFunc, jsEvent, ui, view ){
         //  this.turnosService.moverTurno(event.id,event.start,event.end);
-          console.log('Evento eventResize');
+          const turnoItem = {} as TurnoItem;
+          turnoItem.start = event.start;
+          turnoItem.end = event.end;
+          turnoItem.id = event.id;
+          this.http.post(this.updateTurnosUrl,JSON.stringify(turnoItem)
+            ,{headers:new HttpHeaders().set('Content-Type','application/json')}
+          ).subscribe();
       }
   
     

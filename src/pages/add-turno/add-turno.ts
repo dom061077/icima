@@ -25,9 +25,10 @@ import { Globals } from '../../app/globals';
 })
 export class AddTurnoPage implements OnInit {
   turnos = [];
-
+  estadosTurnos = [];
 
   addTurnoUrl = Globals.httphost+'/api/addturno';
+  estadosTurnoUrl = Globals.httphost+'/api/generalLookup/listestadosturnos.json';
   formAdd: FormGroup;
   //turnos : FirebaseListObservable<any[]>;
   idTurno:any;
@@ -52,6 +53,9 @@ export class AddTurnoPage implements OnInit {
         ,private http: HttpClient
         )  {
       //this.turnos = database.list('turnos');
+      this.http.get(this.estadosTurnoUrl).subscribe((result:any)=>{
+          this.estadosTurnos = result  
+      });
       this.idTurno = navParams.get('id');
       this.startDate = navParams.get('startDate');
       this.endDate = navParams.get('endDate');
@@ -100,6 +104,7 @@ export class AddTurnoPage implements OnInit {
   confirmar(){
 
       const turnoItem = {} as TurnoItem;
+
       turnoItem.start = this.startDate.format();
       turnoItem.end = this.endDate.format();
       turnoItem.title = this.apellidoNombre;
