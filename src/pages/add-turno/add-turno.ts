@@ -26,6 +26,7 @@ import { Globals } from '../../app/globals';
 export class AddTurnoPage implements OnInit {
   turnos = [];
   estadosTurnos = [];
+  estadoId : any;
 
   addTurnoUrl = Globals.httphost+'/api/addturno';
   estadosTurnoUrl = Globals.httphost+'/api/generalLookup/listestadosturnos.json';
@@ -71,7 +72,8 @@ export class AddTurnoPage implements OnInit {
     
       this.formAdd = this.formBuilder.group({
         //'pacienteId': ['',[Validators.required]],
-          'duracion'   : ['', [Validators.required]]
+          'duracion'   : ['', [Validators.required]],
+          'estadoId'   : ['', []]
       });
       
       console.log('Duración: '+this.duracion);

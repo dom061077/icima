@@ -33,6 +33,16 @@
                 <ion-item>
                     <ion-label>y termina a las: {{endDate.format('LT')}}</ion-label>
                 </ion-item>
+
+
+                <ion-item>
+                    <ion-label> Estado del Turno </ion-label>
+                    <ion-select [(ngModel)]="estadoId" formControlName="estadoId" >
+                        <ion-option *ngFor="let estado of estadosTurnos" [value] = "estado.id">{{profesional.nombre}}</ion-option>        
+                    </ion-select>                    
+                </ion-item>    
+  
+
                 <ion-item>
 
                     <button ion-button  [disabled]="!isValid()"   [color]="myColor" [block]=true [large]=true [round]="isRound">
