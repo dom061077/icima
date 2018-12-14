@@ -7,7 +7,7 @@ import { HomePage } from '../home/home';
 import { TurnosServiceProvider } from '../../providers/turnos-service/turnos-service';
 import { TurnoItem  } from '../../models/turnos/turno-item.interface';
 import { HttpClient,HttpHeaders } from '../../../node_modules/@angular/common/http';
-import { Globals } from '../../app/globals';
+import { Globals, OpABM } from '../../app/globals';
 
 
 
@@ -28,6 +28,8 @@ export class AddTurnoPage implements OnInit {
   estadosTurnos = [];
   estadoId : any;
 
+  tipoOperacion : string;
+
   addTurnoUrl = Globals.httphost+'/api/addturno';
   estadosTurnoUrl = Globals.httphost+'/api/generalLookup/listestadosturnos.json';
   formAdd: FormGroup;
@@ -45,6 +47,8 @@ export class AddTurnoPage implements OnInit {
   nombre:string;
   dni:string;
   profesionalId:number;
+
+  operacion:OpABM;
   
 
   constructor(public navCtrl: NavController, public navParams: NavParams
@@ -69,14 +73,14 @@ export class AddTurnoPage implements OnInit {
       if(!this.idTurno){ 
           console.log('No tiene ID de turno');
       }
-    
+      
       this.formAdd = this.formBuilder.group({
         //'pacienteId': ['',[Validators.required]],
           'duracion'   : ['', [Validators.required]],
           'estadoId'   : ['', []]
       });
       
-      console.log('Duración: '+this.duracion);
+      this.operacion = navParams.get('op');
       this.formAdd.get('duracion').setValue(this.duracion);    
 
 
@@ -154,6 +158,12 @@ export class AddTurnoPage implements OnInit {
 
     return true;
   }  
+
+  isUpdate(){
+      if (this.operacion==OpABM.ALTA)
+        return false;
+      return true;
+  }
 
 
 

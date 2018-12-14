@@ -38,7 +38,7 @@
                 <ion-item>
                     <ion-label> Estado del Turno </ion-label>
                     <ion-select [(ngModel)]="estadoId" formControlName="estadoId" >
-                        <ion-option *ngFor="let estado of estadosTurnos" [value] = "estado.id">{{profesional.nombre}}</ion-option>        
+                        <ion-option *ngFor="let estado of estadosTurnos" [value] = "estado.id">{{estado.nombre}}</ion-option>        
                     </ion-select>                    
                 </ion-item>    
   

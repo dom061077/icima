@@ -3,7 +3,8 @@ import { NavController } from 'ionic-angular';
 import {CalendarComponent} from "ap-angular-fullcalendar";
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { AddTurnoPage } from "../add-turno/add-turno";
-import { Globals } from '../../app/globals'
+import { Globals } from '../../app/globals';
+import { OpABM } from '../../app/globals';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
@@ -153,7 +154,7 @@ export class HomePage {
   
       private selectEvent(start, end, allDay){
         this.zone.run(() =>{
-            this.navCtrl.push(AddTurnoPage,{startDate:start,endDate:end,profesionalId:this.profesionalId});
+            this.navCtrl.push(AddTurnoPage,{startDate:start,endDate:end,profesionalId:this.profesionalId,op:OpABM.ALTA});
         });
     }
   
