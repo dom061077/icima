@@ -25,6 +25,7 @@ import { Globals, OpABM } from '../../app/globals';
 })
 export class AddTurnoPage implements OnInit {
   turnos = [];
+  titulo:string;
   estadosTurnos = [];
   estadoId : any;
 
@@ -34,7 +35,7 @@ export class AddTurnoPage implements OnInit {
   estadosTurnoUrl = Globals.httphost+'/api/generalLookup/listestadosturnos.json';
   formAdd: FormGroup;
   //turnos : FirebaseListObservable<any[]>;
-  idTurno:any;
+  turnoId:any;
   startDate:any;
   dateFormat:any;
   hora:any;
@@ -61,7 +62,7 @@ export class AddTurnoPage implements OnInit {
       this.http.get(this.estadosTurnoUrl).subscribe((result:any)=>{
           this.estadosTurnos = result  
       });
-      this.idTurno = navParams.get('id');
+      this.turnoId = navParams.get('id');
       this.startDate = navParams.get('startDate');
       this.endDate = navParams.get('endDate');
       this.dateFormat = navParams.get('dateFormat');
@@ -70,7 +71,7 @@ export class AddTurnoPage implements OnInit {
       this.duracion = navParams.get('duracion');
       this.profesionalId = navParams.get('profesionalId');
 
-      if(!this.idTurno){ 
+      if(!this.turnoId){ 
           console.log('No tiene ID de turno');
       }
       
@@ -81,10 +82,19 @@ export class AddTurnoPage implements OnInit {
       });
       
       this.operacion = navParams.get('op');
+      this.titulo = 'Turno - Registro';
+      if (this.operacion == OpABM.MODIFICACION){
+        this.apellidoNombre = navParams.get('apellidoNombre');
+        this.dni = navParams.get('dni');
+        this.titulo = 'Turno - Modificación';
+        this.estadoId = 
+      }
       this.formAdd.get('duracion').setValue(this.duracion);    
 
 
   }
+
+  
 
 
   /* método que captura la información del paciente seleccionado

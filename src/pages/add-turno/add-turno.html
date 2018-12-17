@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Agregar Turno</ion-title>
+    <ion-title>{{titulo}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -16,12 +16,16 @@
 <ion-content padding>
     <form [formGroup] =  "formAdd"  (ngSubmit)="confirmar()">
             
-            <ion-auto-complete [options]="{placeholder : 'Apellido y Nombre'}"   (itemSelected)="itemSelected($event)" [dataProvider]="autocompleteService" >
+            <ion-auto-complete [hidden]="isUpdate()" [options]="{placeholder : 'Apellido y Nombre'}"   (itemSelected)="itemSelected($event)" [dataProvider]="autocompleteService" >
             </ion-auto-complete>
             <ion-list> 
                 <ion-item> 
                     <ion-label>D.N.I: {{dni}}    </ion-label>
                 </ion-item>
+
+                <ion-item>
+                    <ion-label>Apellido y Nombre: {{apellidoNombre}}</ion-label>
+                </ion-item>    
                         
                 <ion-item> 
                     <ion-label>Fecha del Turno: {{startDate.locale('es').format('L')}}    </ion-label>
@@ -35,8 +39,8 @@
                 </ion-item>
 
 
-                <ion-item>
-                    <ion-label> Estado del Turno </ion-label>
+                <ion-item [hidden]="!isUpdate()">
+                    <ion-label floating> Estado del Turno </ion-label>
                     <ion-select [(ngModel)]="estadoId" formControlName="estadoId" >
                         <ion-option *ngFor="let estado of estadosTurnos" [value] = "estado.id">{{estado.nombre}}</ion-option>        
                     </ion-select>                    

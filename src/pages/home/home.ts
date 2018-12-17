@@ -149,7 +149,7 @@ export class HomePage {
        //   ,duracion:Globals.duracion
        //   ,dateFormat:date.locale('es').format('L'),hora:date.format('LT')});
           console.log('Evento dayClick');
-   
+          
       } 
   
       private selectEvent(start, end, allDay){
@@ -163,6 +163,12 @@ export class HomePage {
            //         ,dni:event.dni,apellido:event.apellido,nombre:event.nombre
            //         ,start:event.start,end:event.end,title:event.title});
            console.log('Evento eventClick');
+           this.navCtrl.push(AddTurnoPage,{turnoId:event.id
+              ,startDate:event.start,endDate:event.end
+              ,dni:event.dni,apellidoNombre:event.apellidoNombre
+              ,op:OpABM.MODIFICACION
+              ,estado:event.estado
+            })
       }
   
    
@@ -227,6 +233,7 @@ export class HomePage {
             this.turnos.splice(0, this.turnos.length);
             this.turnos = dataturnos; 
             this.myCalendar.fullCalendar( 'refetchEvents' );
+
 
         });
         
