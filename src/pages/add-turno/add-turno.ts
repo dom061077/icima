@@ -32,6 +32,7 @@ export class AddTurnoPage implements OnInit {
   tipoOperacion : string;
 
   addTurnoUrl = Globals.httphost+'/api/addturno';
+  updTurnoUrl = Globals.httphost+'/api/updateturnoestado';
   estadosTurnoUrl = Globals.httphost+'/api/generalLookup/listestadosturnos.json';
   formAdd: FormGroup;
   //turnos : FirebaseListObservable<any[]>;
@@ -62,7 +63,7 @@ export class AddTurnoPage implements OnInit {
       this.http.get(this.estadosTurnoUrl).subscribe((result:any)=>{
           this.estadosTurnos = result  
       });
-      this.turnoId = navParams.get('id');
+      this.turnoId = navParams.get('turnoId');
       this.startDate = navParams.get('startDate');
       this.endDate = navParams.get('endDate');
       this.dateFormat = navParams.get('dateFormat');
@@ -87,7 +88,7 @@ export class AddTurnoPage implements OnInit {
         this.apellidoNombre = navParams.get('apellidoNombre');
         this.dni = navParams.get('dni');
         this.titulo = 'Turno - Modificación';
-        this.estadoId = 
+        this.estadoId = navParams.get('estado');
       }
       this.formAdd.get('duracion').setValue(this.duracion);    
 
@@ -117,25 +118,43 @@ export class AddTurnoPage implements OnInit {
     
   }
 
+  update(){
+    const turnoItem = {} as TurnoItem;
+    turnoItem.id = this.turnoId;
+    turnoItem.estado = this.estadoId;
+    this.http.post(
+        this.updTurnoUrl
+        ,JSON.stringify(turnoItem)
+        ,{headers:new HttpHeaders().set('Content-Type','application/json')}
+    ).subscribe();
+  }
+
+  add(){
+    const turnoItem = {} as TurnoItem;
+
+    turnoItem.start = this.startDate.format();
+    turnoItem.end = this.endDate.format();
+    turnoItem.title = this.apellidoNombre;
+    turnoItem.pacienteId = this.$keyPaciente;
+    turnoItem.profesionalId = this.profesionalId;
+    this.http.post(this.addTurnoUrl,JSON.stringify(
+      //{fechaStart:this.startDate.format(),fechaEnd:this.endDate.format()
+      //  ,titulo:'TITULO DE TURNO  PRO'
+      //}
+      turnoItem 
+    )
+        ,{headers:new HttpHeaders().set('Content-Type','application/json')
+      }
+    ).subscribe();
+
+  }
+
   confirmar(){
 
-      const turnoItem = {} as TurnoItem;
-
-      turnoItem.start = this.startDate.format();
-      turnoItem.end = this.endDate.format();
-      turnoItem.title = this.apellidoNombre;
-      turnoItem.pacienteId = this.$keyPaciente;
-      turnoItem.profesionalId = this.profesionalId;
-      this.http.post(this.addTurnoUrl,JSON.stringify(
-        //{fechaStart:this.startDate.format(),fechaEnd:this.endDate.format()
-        //  ,titulo:'TITULO DE TURNO  PRO'
-        //}
-        turnoItem 
-      )
-          ,{headers:new HttpHeaders().set('Content-Type','application/json')
-        }
-      ).subscribe();
-     
+      if(this.operacion == OpABM.ALTA)
+        this.add();
+      if(this.operacion == OpABM.MODIFICACION)       
+        this.update();
 
 
       //this.turnoService.addTurno(turnoItem,this.$keyPaciente);
