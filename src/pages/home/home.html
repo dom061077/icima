@@ -15,6 +15,17 @@
   </p>
 
   <button ion-button secondary menuToggle>Toggle Menu</button-->
+    <ion-list>
+          <ion-item>
+            <button [disabled]="true" ion-button color="atendido">Atendido</button>
+            <button [disabled]="true" ion-button color="ausente" ion-button>Ausente</button>
+              <button [disabled]="true" ion-button color="anulado" ion-button>Anulado</button>
+                <button [disabled]="true" ion-button color="ensala" ion-button>En Sala</button>
+                <button [disabled]="true" ion-button color="pendiente" ion-button>Pendiente</button>
+           </ion-item>          
+      
+          
+    </ion-list>  
     <ion-item>
       <ion-label floating>Profesional:</ion-label>
       <ion-select [(ngModel)]="profesionalId" (ionChange)="onProfesionalChange()">

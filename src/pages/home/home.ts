@@ -9,6 +9,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { TurnoItem  } from '../../models/turnos/turno-item.interface';
+import { AlertController } from 'ionic-angular';
 
 
 @Component({
@@ -123,7 +124,14 @@ export class HomePage {
           turnoItem.id = event.id;
           this.http.post(this.updateTurnosUrl,JSON.stringify(turnoItem)
             ,{headers:new HttpHeaders().set('Content-Type','application/json')}
-          ).subscribe();
+          ).subscribe((result:any)=>{
+              let alert = this.alertCtrl.create({
+                title: "Error",
+                message: "Mensaje de error",
+                buttons: ['OK'] 
+              }); 
+              alert.present();            
+          });
 
       }
   
@@ -179,7 +187,8 @@ export class HomePage {
     }
   
 
-  constructor(public navCtrl: NavController,public zone:NgZone,private http: HttpClient) {
+  constructor(public navCtrl: NavController,public zone:NgZone,private http: HttpClient
+        ,private alertCtrl: AlertController) {
       this.getTurnos();
       
       this.http.get(this.proUrl).subscribe((result:any)=>{
