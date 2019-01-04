@@ -33,6 +33,7 @@ export class AddTurnoPage implements OnInit {
 
   addTurnoUrl = Globals.httphost+'/api/addturno';
   updTurnoUrl = Globals.httphost+'/api/updateturnoestado';
+  dltTurnoUrl = Globals.httphost+'/api/deleteturno';
   estadosTurnoUrl = Globals.httphost+'/api/generalLookup/listestadosturnos.json';
   formAdd: FormGroup;
   //turnos : FirebaseListObservable<any[]>;
@@ -129,6 +130,14 @@ export class AddTurnoPage implements OnInit {
     ).subscribe();
   }
 
+  delete(){
+    const turnoItem = {} as TurnoItem;
+    turnoItem.id = this.turnoId;
+    this.http.delete(this.dltTurnoUrl+'/'+this.turnoId
+      ,{headers:new HttpHeaders().set('Content-Type','application/json')}
+    ) .subscribe();
+  }
+
   add(){
     const turnoItem = {} as TurnoItem;
 
@@ -145,9 +154,14 @@ export class AddTurnoPage implements OnInit {
     )
         ,{headers:new HttpHeaders().set('Content-Type','application/json')
       }
-    ).subscribe();
+    ).subscribe((result:any)=>{
+      this.navCtrl.push(HomePage) ;
+
+    });
 
   }
+
+
 
   confirmar(){
 
@@ -161,6 +175,8 @@ export class AddTurnoPage implements OnInit {
 
       this.navCtrl.push(HomePage) ;
   }
+
+
 
   pacienteValidator(control: FormControl): {[s: string]: boolean} {
     if (!this.$keyPaciente) {

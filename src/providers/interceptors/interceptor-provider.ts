@@ -32,7 +32,7 @@ export class InterceptorProvider implements HttpInterceptor {
                         catchError(error => {
                             // Perhaps display an error for specific status codes here already?
                             loading.dismiss();
-                            let msg = error.message;
+                            let msg ='';//= error.message;
                             let title = error.name;
                             if (error.status == 401){
                                 msg = 'Usuario o Contraseña incorrectos';

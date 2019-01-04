@@ -51,8 +51,12 @@
 
                     <button ion-button  [disabled]="!isValid() && !isUpdate()"   [color]="myColor" [block]=true [large]=true [round]="isRound">
                         Confirmar
-                </button>    
- 
+                    </button>    
+                </ion-item>    
+                <ion-item>
+                    <button ion-button (click) = "delete()"  [color]="myColor" [large]=true [block]=true [round]="isRound">
+                            Eliminar
+                    </button>    
                 </ion-item>    
             </ion-list>  
     </form>            

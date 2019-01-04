@@ -125,12 +125,21 @@ export class HomePage {
           this.http.post(this.updateTurnosUrl,JSON.stringify(turnoItem)
             ,{headers:new HttpHeaders().set('Content-Type','application/json')}
           ).subscribe((result:any)=>{
-              let alert = this.alertCtrl.create({
-                title: "Error",
-                message: "Mensaje de error",
-                buttons: ['OK'] 
-              }); 
-              alert.present();            
+              if(result.success == false){
+                  var msg='<ul>';;
+
+                  result.messages.forEach(element=>{
+                      msg = msg +'<li>'+ element+ '</li>';
+                  });
+
+                  msg = msg + '</ul>';
+                  let alert = this.alertCtrl.create({
+                    title: "Error",
+                    message: msg,
+                    buttons: ['OK'] 
+                  }); 
+                  alert.present();            
+              }
           });
 
       }
