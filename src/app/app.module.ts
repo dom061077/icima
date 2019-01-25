@@ -9,6 +9,7 @@ import { ListPage } from '../pages/list/list';
 import { AddTurnoPage } from '../pages/add-turno/add-turno';
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 import { LoginPage  } from '../pages/login/login';
+import { VisitaPage } from '../pages/visita/visita';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -34,6 +35,8 @@ import { SeguridadServiceProvider } from '../providers/usuarios-service/segurida
 import { InterceptorProvider  } from '../providers/interceptors/interceptor-provider';
 
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AutocompleteCie10Provider } from '../providers/autocomplete-cie10/autocomplete-cie10';
+import { AutocompleteProvider } from '../providers/autocomplete/autocomplete';
 
 
 
@@ -42,7 +45,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     MyApp,
     HomePage,
     AddTurnoPage,
-    ListPage
+    ListPage,
+    VisitaPage
   ],
   imports: [
     BrowserModule,
@@ -58,7 +62,8 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
   entryComponents: [
     MyApp,
     HomePage,
-    AddTurnoPage
+    AddTurnoPage,
+    VisitaPage
   ],
   providers: [
     StatusBar,
@@ -76,7 +81,9 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
     UsuariosServiceProvider,
     ProfesionalesProvider,
     SeguridadServiceProvider,
-    { provide: HTTP_INTERCEPTORS, useClass: InterceptorProvider, multi: true },    
+    { provide: HTTP_INTERCEPTORS, useClass: InterceptorProvider, multi: true },
+    AutocompleteCie10Provider,
+    AutocompleteProvider    
   ]
 
 })

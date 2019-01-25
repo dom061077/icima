@@ -9,6 +9,7 @@ import { ProfileItem } from '../../models/profile/profile-item.interface';
 
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Storage } from '@ionic/storage';
+import { Globals } from '../../app/globals';
 
 
 
@@ -102,9 +103,17 @@ export class LoginPage {
           });
       }   */   
     //loginObs.unsubscribe();
-    this.userService.login(user.email,user.password).then(data =>{
+    this.userService.login(user.email,user.password).then((data:any) =>{
+        var menu = [];
         if ('roles' in data){
             this.navCtrl.setRoot(HomePage);
+            data.roles.forEach(element => {
+                if(element=='ROLE_USER'){
+                  menu.push({title:'Turnos',component:HomePage});
+                }
+                Globals.roles.push(element);
+            });
+            Globals.pages$.next( menu);
         } 
     });
 

@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { TurnoItem  } from '../../models/turnos/turno-item.interface';
 import { AlertController } from 'ionic-angular';
+import { VisitaPage  } from '../visita/visita';
 
 
 @Component({
@@ -180,12 +181,24 @@ export class HomePage {
            //         ,dni:event.dni,apellido:event.apellido,nombre:event.nombre
            //         ,start:event.start,end:event.end,title:event.title});
            console.log('Evento eventClick');
-           this.navCtrl.push(AddTurnoPage,{turnoId:event.id
-              ,startDate:event.start,endDate:event.end
-              ,dni:event.dni,apellidoNombre:event.apellidoNombre
-              ,op:OpABM.MODIFICACION
-              ,estado:event.estado
-            })
+           var tieneRoleProfesional=false;
+            Globals.roles.forEach((element:any)=>{
+                if(element=='ROLE_PROFESIONAL'){
+                  tieneRoleProfesional = true;
+                }
+            });
+            if(tieneRoleProfesional)
+              this.navCtrl.push(VisitaPage);
+            else  
+              this.navCtrl.push(AddTurnoPage,{turnoId:event.id
+                ,startDate:event.start,endDate:event.end
+                ,dni:event.dni,apellidoNombre:event.apellidoNombre
+                ,op:OpABM.MODIFICACION
+                ,estado:event.estado
+              });
+            
+
+
       }
   
    
@@ -211,6 +224,7 @@ export class HomePage {
 
 
   ngAfterViewInit(){
+    console.log('After View Init en home.ts');
     const momento = moment();
     momento.minutes(0);
     this.myCalendar.fullCalendar('gotoDate',momento.format());

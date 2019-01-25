@@ -8,6 +8,7 @@ import { TurnosServiceProvider } from '../../providers/turnos-service/turnos-ser
 import { TurnoItem  } from '../../models/turnos/turno-item.interface';
 import { HttpClient,HttpHeaders } from '../../../node_modules/@angular/common/http';
 import { Globals, OpABM } from '../../app/globals';
+import { AlertController } from 'ionic-angular';
 
 
 
@@ -59,6 +60,7 @@ export class AddTurnoPage implements OnInit {
       //,private database: AngularFireDatabase
         ,public formBuilder: FormBuilder//,private turnoService: TurnosServiceProvider 
         ,private http: HttpClient
+        , private alertCtrl: AlertController
         )  {
       //this.turnos = database.list('turnos');
       this.http.get(this.estadosTurnoUrl).subscribe((result:any)=>{
@@ -127,7 +129,16 @@ export class AddTurnoPage implements OnInit {
         this.updTurnoUrl
         ,JSON.stringify(turnoItem)
         ,{headers:new HttpHeaders().set('Content-Type','application/json')}
-    ).subscribe();
+    ).subscribe((result:any)=>{
+      if(!result.success){
+        let alert = this.alertCtrl.create({
+          title: 'Error',
+          message: result.message,
+          buttons: ['OK'] 
+        }); 
+        alert.present();   
+      }            
+    });
   }
 
   delete(){
@@ -135,7 +146,9 @@ export class AddTurnoPage implements OnInit {
     turnoItem.id = this.turnoId;
     this.http.delete(this.dltTurnoUrl+'/'+this.turnoId
       ,{headers:new HttpHeaders().set('Content-Type','application/json')}
-    ) .subscribe();
+    ) .subscribe((result:any)=>{
+      this.navCtrl.push(HomePage) ;
+    });
   }
 
   add(){
@@ -161,6 +174,9 @@ export class AddTurnoPage implements OnInit {
 
   }
 
+  ngAfterViewInit(){
+      console.log('After View Init en add-turno.ts');    
+  }
 
 
   confirmar(){
@@ -190,6 +206,10 @@ export class AddTurnoPage implements OnInit {
   
   }
 
+
+  ionViewDidEnter(){
+    console.log('Evento ionViewDidEnter EN ADD-TURNO.ts');
+  }  
 
 
 

@@ -83,18 +83,18 @@ export class UsuariosServiceProvider {
         let _storage = this.storage;
         return new Promise(resolve => 
         this.http.post(this.apiUrl,JSON.stringify({username:usuario_par,password:password_par})
-        ,{headers:new HttpHeaders().set('Content-Type','application/json')
-
-        }
+        ,   {headers:new HttpHeaders().set('Content-Type','application/json')
+            }
         ) 
         .subscribe((res:any)=>{ 
             if(typeof res.access_token !== 'undefined'){
                 this.storage.set('access_token',res.access_token); 
+                this.storage.set('user_roles',res.roles);
                 resolve(res)  ;
             }
-        },(err)=>{
-            console.log('Error en login');
-            return false;
+            },(err)=>{
+                console.log('Error en login');
+                return false;
         })
     );
 
