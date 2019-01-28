@@ -188,7 +188,12 @@ export class HomePage {
                 }
             });
             if(tieneRoleProfesional)
+
+            this.zone.run(() =>{
               this.navCtrl.push(VisitaPage);
+            });
+  
+
             else  
               this.navCtrl.push(AddTurnoPage,{turnoId:event.id
                 ,startDate:event.start,endDate:event.end

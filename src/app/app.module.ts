@@ -34,9 +34,14 @@ import { SeguridadServiceProvider } from '../providers/usuarios-service/segurida
 
 import { InterceptorProvider  } from '../providers/interceptors/interceptor-provider';
 
+
+import { SpeechRecognition} from '@ionic-native/speech-recognition';
+
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AutocompleteCie10Provider } from '../providers/autocomplete-cie10/autocomplete-cie10';
 import { AutocompleteProvider } from '../providers/autocomplete/autocomplete';
+
+
 
 
 
@@ -67,9 +72,9 @@ import { AutocompleteProvider } from '../providers/autocomplete/autocomplete';
   ],
   providers: [
     StatusBar,
-    SplashScreen,    
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    SplashScreen,   
 
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
     AutocompletePacienteServiceProvider,
     AutocompleteObrasocialServiceProvider,
     AutocompleteProvinciaProvider,
@@ -83,7 +88,8 @@ import { AutocompleteProvider } from '../providers/autocomplete/autocomplete';
     SeguridadServiceProvider,
     { provide: HTTP_INTERCEPTORS, useClass: InterceptorProvider, multi: true },
     AutocompleteCie10Provider,
-    AutocompleteProvider    
+    AutocompleteProvider
+    
   ]
 
 })
