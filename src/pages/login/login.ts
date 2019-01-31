@@ -105,7 +105,10 @@ export class LoginPage {
     //loginObs.unsubscribe();
     this.userService.login(user.email,user.password).then((data:any) =>{
         var menu = [];
+        console.log('ingreso a login');
+        console.log('Data: '+data);
         if ('roles' in data){
+            
             this.navCtrl.setRoot(HomePage);
             data.roles.forEach(element => {
                 if(element=='ROLE_USER'){

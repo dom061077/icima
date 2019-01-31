@@ -1,5 +1,5 @@
 import { OnInit, Component,ViewChild } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, Platform  } from 'ionic-angular';
 import { AutocompletePacienteServiceProvider  } from '../../providers/autocomplete-paciente-service/autocomplete-paciente-service';
 //import { AngularFireDatabase,FirebaseListObservable} from 'angularfire2/database';
 import { FormGroup, FormBuilder, FormControl, Validators,ReactiveFormsModule  } from "@angular/forms";
@@ -9,7 +9,8 @@ import { TurnoItem  } from '../../models/turnos/turno-item.interface';
 import { HttpClient,HttpHeaders } from '../../../node_modules/@angular/common/http';
 import { Globals, OpABM } from '../../app/globals';
 import { AlertController } from 'ionic-angular';
-
+import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
+import { ChangeDetectorRef } from '@angular/core';
 
 
 /**
@@ -25,6 +26,9 @@ import { AlertController } from 'ionic-angular';
   templateUrl: 'add-turno.html',
 })
 export class AddTurnoPage implements OnInit {
+  isRecording = false;
+  matches: String[];
+
   turnos = [];
   titulo:string;
   estadosTurnos = [];
@@ -61,6 +65,9 @@ export class AddTurnoPage implements OnInit {
         ,public formBuilder: FormBuilder//,private turnoService: TurnosServiceProvider 
         ,private http: HttpClient
         , private alertCtrl: AlertController
+        ,private speechRecognition: SpeechRecognition
+        ,private plt: Platform
+        , private cd: ChangeDetectorRef
         )  {
       //this.turnos = database.list('turnos');
       this.http.get(this.estadosTurnoUrl).subscribe((result:any)=>{
@@ -99,6 +106,7 @@ export class AddTurnoPage implements OnInit {
   }
 
   
+
 
 
   /* método que captura la información del paciente seleccionado
@@ -231,5 +239,58 @@ export class AddTurnoPage implements OnInit {
   }
 
 
+
+  stopListening() {
+    this.speechRecognition.stopListening().then(() => {
+      this.isRecording = false;
+    });
+  }
+ 
+  getPermission() {
+  
+  }
+ 
+  startListening() {
+
+    /*this.speechRecognition.requestPermission()
+    .then(
+      () => console.log('Granted'),
+      () => console.log('Denied')
+    )
+
+
+    this.speechRecognition.startListening()
+    .subscribe(
+      (matches: Array<string>) => console.log(matches),
+      (onerror) => console.log('error:', onerror)
+    )*/
+    window['plugins'].speechRecognition.hasPermission(permission => {
+
+      if (!permission) {
+        window['plugins'].speechRecognition.requestPermission(_ => {
+          window['plugins'].speechRecognition.startListening(terms => {
+            if (terms && terms.length > 0) {
+              
+            } else {
+              
+            }
+          });
+        });
+      } else {
+        window['plugins'].speechRecognition.startListening(terms => {
+          if (terms && terms.length > 0) {
+            
+          } else {
+            
+          }
+        });
+      }
+    });   
+
+  }
+
+  isIos() {
+    return this.plt.is('ios');
+  }
 
 }
