@@ -247,7 +247,18 @@ export class AddTurnoPage implements OnInit {
   }
  
   getPermission() {
-  
+    this.speechRecognition.hasPermission().then(
+        () =>{console.log('Granted')},
+        () =>{console.log('Denied')}
+
+    );
+    /*window['plugins'].speechRecognition.hasPermission(permission => {
+      if(permission)
+          console.log('Tiene permiso');
+      else
+          console.log('No tiene permiso');
+      
+    });/
   }
  
   startListening() {
@@ -268,18 +279,21 @@ export class AddTurnoPage implements OnInit {
 
       if (!permission) {
         window['plugins'].speechRecognition.requestPermission(_ => {
+          console.log('Pidiendo permiso');
           window['plugins'].speechRecognition.startListening(terms => {
             if (terms && terms.length > 0) {
-              
+              this.matches = terms;
             } else {
               
             }
-          });
+          }
+        );
         });
       } else {
+        console.log('Con permiso concedido');
         window['plugins'].speechRecognition.startListening(terms => {
           if (terms && terms.length > 0) {
-            
+              this.matches = terms;
           } else {
             
           }
