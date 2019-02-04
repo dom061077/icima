@@ -247,18 +247,19 @@ export class AddTurnoPage implements OnInit {
   }
  
   getPermission() {
-    this.speechRecognition.hasPermission().then(
+    console.log('Get permission en add turno');
+    /*this.speechRecognition.hasPermission().then(
         () =>{console.log('Granted')},
         () =>{console.log('Denied')}
 
-    );
-    /*window['plugins'].speechRecognition.hasPermission(permission => {
+    );*/
+    window['plugins'].speechRecognition.hasPermission(permission => {
       if(permission)
           console.log('Tiene permiso');
       else
           console.log('No tiene permiso');
       
-    });/
+    });
   }
  
   startListening() {
@@ -278,7 +279,21 @@ export class AddTurnoPage implements OnInit {
     window['plugins'].speechRecognition.hasPermission(permission => {
 
       if (!permission) {
-        window['plugins'].speechRecognition.requestPermission(_ => {
+        window['plugins'].speechRecognition.startListening(
+          function (terms){
+            //if (terms && terms.length > 0) {
+              this.matches = terms;
+            //} else {
+              
+            //}
+          }
+          ,function (onerror){
+              console.log('Error: '+onerror);
+          }
+          
+          ,{language:'es-ES',mateches:1}
+        );        
+        /*window['plugins'].speechRecognition.requestPermission(_ => {
           console.log('Pidiendo permiso');
           window['plugins'].speechRecognition.startListening(terms => {
             if (terms && terms.length > 0) {
@@ -288,16 +303,30 @@ export class AddTurnoPage implements OnInit {
             }
           }
         );
-        });
+        });*/
       } else {
         console.log('Con permiso concedido');
-        window['plugins'].speechRecognition.startListening(terms => {
+        window['plugins'].speechRecognition.startListening(
+          function (terms){
+            //if (terms && terms.length > 0) {
+              this.matches = terms;
+            //} else {
+              
+            //}
+          }
+          ,function (onerror){
+              console.log('Error: '+onerror);
+          }
+          
+          ,{language:'es-ES',mateches:1}
+        );
+        /*window['plugins'].speechRecognition.startListening(terms => {
           if (terms && terms.length > 0) {
               this.matches = terms;
           } else {
             
           }
-        });
+        });*/
       }
     });   
 
