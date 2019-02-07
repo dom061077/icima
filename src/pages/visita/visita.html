@@ -17,24 +17,29 @@
     <!-- ion-auto-complete [hidden]="isUpdate()" [options]="{placeholder : 'Descripción CIE 10'}"   (itemSelected)="itemSelected($event)" [dataProvider]="autocompleteService" >
       </ion-auto-complete -->
 
-    <ion-auto-complete [hidden]="isUpdate()" [options]="{placeholder : 'Apellido y Nombre'}"   (itemSelected)="itemSelected($event)" [dataProvider]="autocompleteService" >
-    </ion-auto-complete>
 
 
     <form [formGroup] = "formAdd" (ngSubmit)="confirmar()">
         <ion-list> 
-                <!-- ion-item> 
-                    <ion-label>Profesional: {{profesional}}    </ion-label>
+                <ion-item> 
+                    <ion-label >Profesional: {{profesional}}    </ion-label>
                 </ion-item>                
                 <ion-item>
-                    <ion-label>Paciente: {{paciente}}</ion-label>
+                <ion-label>Paciente:</ion-label>
+                
+                </ion-item>  
+                <ion-auto-complete [hidden]="isUpdate()" [options]="{placeholder : 'Apellido y Nombre'}"   (itemSelected)="itemSelected($event)" [dataProvider]="autocompleteService" >
+                </ion-auto-complete>
+                <ion-item>
+                    <button clear (click)="activarVoz()">
+                      <ion-icon name="mic"></ion-icon>                  
+                    </button>   
+                </ion-item>  
+                <ion-item>
+                    <ion-label floating>Observaciones:</ion-label>
+                     <ion-textarea [(ngModel)]="matches"  rows="6" formControlName="matches"></ion-textarea>
                 </ion-item>  
 
-                <ion-item>
-                    <ion-label floating>D.N.I:</ion-label>
-                    <ion-input [(ngModel)]="pacienteItem.dni"
-                             formControlName="dni" type="number"></ion-input>
-                </ion-item -->
         </ion-list>  
     </form>  
 </ion-content>

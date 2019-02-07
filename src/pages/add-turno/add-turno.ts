@@ -27,7 +27,7 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class AddTurnoPage implements OnInit {
   isRecording = false;
-  matches: String[];
+  matches: String;
 
   turnos = [];
   titulo:string;
@@ -279,54 +279,27 @@ export class AddTurnoPage implements OnInit {
     window['plugins'].speechRecognition.hasPermission(permission => {
 
       if (!permission) {
-        window['plugins'].speechRecognition.startListening(
-          function (terms){
-            //if (terms && terms.length > 0) {
-              this.matches = terms;
-            //} else {
-              
-            //}
-          }
-          ,function (onerror){
-              console.log('Error: '+onerror);
-          }
-          
-          ,{language:'es-ES',mateches:1}
-        );        
-        /*window['plugins'].speechRecognition.requestPermission(_ => {
+        window['plugins'].speechRecognition.requestPermission(_ => {
           console.log('Pidiendo permiso');
           window['plugins'].speechRecognition.startListening(terms => {
+            console.log('Terms: '+terms);
             if (terms && terms.length > 0) {
-              this.matches = terms;
+              this.matches = terms[0];
             } else {
               
             }
           }
         );
-        });*/
+        });
       } else {
-        console.log('Con permiso concedido');
-        window['plugins'].speechRecognition.startListening(
-          function (terms){
-            //if (terms && terms.length > 0) {
-              this.matches = terms;
-            //} else {
-              
-            //}
-          }
-          ,function (onerror){
-              console.log('Error: '+onerror);
-          }
-          
-          ,{language:'es-ES',mateches:1}
-        );
-        /*window['plugins'].speechRecognition.startListening(terms => {
+        window['plugins'].speechRecognition.startListening(terms => {
           if (terms && terms.length > 0) {
-              this.matches = terms;
+              console.log('Terms: '+terms[0]);
+              this.matches = terms[0];
           } else {
             
           }
-        });*/
+        });
       }
     });   
 
