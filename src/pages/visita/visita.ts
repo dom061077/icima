@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {  NavController, NavParams } from 'ionic-angular';
 import { AutocompleteProvider  } from '../../providers/autocomplete/autocomplete';
-import { Globals } from '../../app/globals';
+import { Globals, OpABM } from '../../app/globals';
 import { FormGroup, FormBuilder, FormControl, Validators,ReactiveFormsModule  } from "@angular/forms";
-import { SpeechRecognition } from '@ionic-native/speech-recognition';
 
 /**
  * Generated class for the VisitaPage page.
@@ -19,22 +18,28 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition';
 })
 export class VisitaPage {
   formAdd: FormGroup;
+  turnoId:number;
+  cie10Id:number;
+  apellidoNombrePaciente:string;
+  nombreProfesional:string;
 
-  matches: String;
+  matches: string;
+
+  addUrl = Globals.httphost+'';
 
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public formBuilder: FormBuilder
-    ,public autocompleteService:AutocompleteProvider
-    
-    
-    
+    ,public autocompleteServiceCie10:AutocompleteProvider
     ) {
       this.formAdd = this.formBuilder.group({
         'matches'   : ['', []]
           
       });      
-      autocompleteService.setApiUrl(Globals.httphost+'/api/generalLookup/cie10');
-      autocompleteService.setLabelAttribute("descripcion");
+      this.turnoId = navParams.get('turnoId');
+      this.apellidoNombrePaciente = navParams.get('apellidoNombrePaciente');
+      this.nombreProfesional = navParams.get('nombreProfesional');
+      autocompleteServiceCie10.setApiUrl(Globals.httphost+'/api/generalLookup/cie10');
+      autocompleteServiceCie10.setLabelAttribute("descripcion");
   }
 
   ionViewDidLoad() {
@@ -47,6 +52,11 @@ export class VisitaPage {
 
   isUpdate(){
     
+  }
+
+  itemSelected(event){
+      this.cie10Id = event.id;
+
   }
 
   ngOnInit():any{

@@ -22,13 +22,13 @@
     <form [formGroup] = "formAdd" (ngSubmit)="confirmar()">
         <ion-list> 
                 <ion-item> 
-                    <ion-label >Profesional: {{profesional}}    </ion-label>
+                    <ion-label >Profesional: {{nombreProfesional}}    </ion-label>
                 </ion-item>                
                 <ion-item>
-                <ion-label>Paciente:</ion-label>
+                <ion-label>Paciente: {{apellidoNombrePaciente}}</ion-label>
                 
                 </ion-item>  
-                <ion-auto-complete [hidden]="isUpdate()" [options]="{placeholder : 'Apellido y Nombre'}"   (itemSelected)="itemSelected($event)" [dataProvider]="autocompleteService" >
+                <ion-auto-complete [hidden]="isUpdate()" [options]="{placeholder : 'Descripción CIE10'}"   (itemSelected)="itemSelected($event)" [dataProvider]="autocompleteServiceCie10" >
                 </ion-auto-complete>
                 <ion-item>
                     <button clear (click)="activarVoz()">

@@ -172,7 +172,7 @@ export class HomePage {
   
       private selectEvent(start, end, allDay){
         this.zone.run(() =>{
-            this.navCtrl.push(AddTurnoPage,{startDate:start,endDate:end,profesionalId:this.profesionalId,op:OpABM.ALTA});
+            this.navCtrl.push(AddTurnoPage,{startDate:start,endDate:end,profesionalId:this.profesionalId.id,op:OpABM.ALTA});
         });
     }
   
@@ -190,7 +190,9 @@ export class HomePage {
             if(tieneRoleProfesional)
 
             this.zone.run(() =>{
-              this.navCtrl.push(VisitaPage);
+              this.navCtrl.push(VisitaPage,{turnoId:event.id,apellidoNombrePaciente:event.apellidoNombre
+                ,nombreProfesional:this.profesionalId.nombre
+              });
             });
   
 
@@ -220,8 +222,8 @@ export class HomePage {
       
       this.http.get(this.proUrl).subscribe((result:any)=>{
         this.profesionales =  result.list;
-        this.profesionalId = result.list[0].id;
-        this.profesionalId$.next(this.profesionalId);
+        this.profesionalId = result.list[0];
+        this.profesionalId$.next(this.profesionalId.id);
       });
        
   }
@@ -285,7 +287,7 @@ export class HomePage {
  
 
   onProfesionalChange(){
-      this.profesionalId$.next(this.profesionalId);
+      this.profesionalId$.next(this.profesionalId.id);
       this.fetchTurnosData().subscribe((dataturnos:any)=>{
         this.turnos.splice(0, this.turnos.length);
         this.turnos = dataturnos; 
