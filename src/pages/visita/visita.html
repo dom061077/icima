@@ -28,8 +28,19 @@
                 <ion-label>Paciente: {{apellidoNombrePaciente}}</ion-label>
                 
                 </ion-item>  
-                <ion-auto-complete [hidden]="isUpdate()" [options]="{placeholder : 'Descripción CIE10'}"   (itemSelected)="itemSelected($event)" [dataProvider]="autocompleteServiceCie10" >
-                </ion-auto-complete>
+                <ion-auto-complete [hidden]="isUpdate()" [options]="{placeholder : 'Descripción CIE10'}"   
+                    (itemSelected)="itemCie10Selected($event)" [dataProvider]="autocompleteServiceCie10" >
+                </ion-auto-complete>                    
+                <ion-item>
+                    <ion-label floating>Tipo:</ion-label>  
+                    <ion-select>
+                        <ion-option *ngFor="let estado of estadosConsultas" [value]="estado.id">
+                            {{estado.nombre}}
+                       </ion-option>   
+                    </ion-select>  
+
+                </ion-item>  
+                
                 <ion-item>
                     <button clear (click)="activarVoz()">
                       <ion-icon name="mic"></ion-icon>                  
@@ -39,6 +50,12 @@
                     <ion-label floating>Observaciones:</ion-label>
                      <ion-textarea [(ngModel)]="matches"  rows="6" formControlName="matches"></ion-textarea>
                 </ion-item>  
+
+                <ion-item>
+                    <button ion-button     [color]="myColor" [block]=true [large]=true [round]="isRound">
+                        Confirmar
+                    </button>    
+                </ion-item>    
 
         </ion-list>  
     </form>  

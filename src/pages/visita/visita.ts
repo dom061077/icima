@@ -3,6 +3,7 @@ import {  NavController, NavParams } from 'ionic-angular';
 import { AutocompleteProvider  } from '../../providers/autocomplete/autocomplete';
 import { Globals, OpABM } from '../../app/globals';
 import { FormGroup, FormBuilder, FormControl, Validators,ReactiveFormsModule  } from "@angular/forms";
+import { HttpClient,HttpHeaders } from '../../../node_modules/@angular/common/http';
 
 /**
  * Generated class for the VisitaPage page.
@@ -22,6 +23,8 @@ export class VisitaPage {
   cie10Id:number;
   apellidoNombrePaciente:string;
   nombreProfesional:string;
+  estadosConsultas=[];
+  estadosConsultaUrl = Globals.httphost+'/api/generalLookup/listEstadoConsulta.json';
 
   matches: string;
 
@@ -30,9 +33,9 @@ export class VisitaPage {
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public formBuilder: FormBuilder
     ,public autocompleteServiceCie10:AutocompleteProvider
-    ) {
+    ,private http: HttpClient ) {
       this.formAdd = this.formBuilder.group({
-        'matches'   : ['', []]
+        'matches'   : ['', [Validators.required]]
           
       });      
       this.turnoId = navParams.get('turnoId');
@@ -40,6 +43,9 @@ export class VisitaPage {
       this.nombreProfesional = navParams.get('nombreProfesional');
       autocompleteServiceCie10.setApiUrl(Globals.httphost+'/api/generalLookup/cie10');
       autocompleteServiceCie10.setLabelAttribute("descripcion");
+      this.http.get(this.estadosConsultaUrl).subscribe((result:any)=>{
+          this.estadosConsultas = result;
+      });
   }
 
   ionViewDidLoad() {
@@ -47,14 +53,14 @@ export class VisitaPage {
   }
 
   confirmar(){
-
+      console.log('Es válido: '+this.formAdd.controls.matches.valid);
   }
 
   isUpdate(){
     
   }
 
-  itemSelected(event){
+  itemCie10Selected(event){
       this.cie10Id = event.id;
 
   }
