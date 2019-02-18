@@ -1,6 +1,5 @@
 export interface VisitaItem{
+    turnoId : number;
     cie10Id : number;
-    pacienteId: number;
-    profesionalId: number;
     contenido:string;
 }

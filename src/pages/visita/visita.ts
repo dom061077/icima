@@ -4,6 +4,7 @@ import { AutocompleteProvider  } from '../../providers/autocomplete/autocomplete
 import { Globals, OpABM } from '../../app/globals';
 import { FormGroup, FormBuilder, FormControl, Validators,ReactiveFormsModule  } from "@angular/forms";
 import { HttpClient,HttpHeaders } from '../../../node_modules/@angular/common/http';
+import { VisitaItem } from '../../models/visita/visita-item.interface';
 
 /**
  * Generated class for the VisitaPage page.
@@ -28,7 +29,7 @@ export class VisitaPage {
 
   matches: string;
 
-  addUrl = Globals.httphost+'';
+  addConsultaUrl = Globals.httphost+'/api/addconsulta';
 
   constructor(public navCtrl: NavController, public navParams: NavParams
     ,public formBuilder: FormBuilder
@@ -53,7 +54,23 @@ export class VisitaPage {
   }
 
   confirmar(){
-      console.log('Es válido: '+this.formAdd.controls.matches.valid);
+      console.log('Valor de contenido: '+this.formAdd.get('matches').value);
+      const visitaItem = {} as VisitaItem;
+      visitaItem.turnoId = this.turnoId;
+      visitaItem.contenido = this.formAdd.get('matches').value;
+      visitaItem.cie10Id = this.cie10Id;
+
+      //visitaItem.turnoId = this.formAdd.get
+      //console.log('Es válido: '+this.formAdd.controls.matches.valid);
+      if(this.formAdd.valid)
+        //console.log('Formulario válido');
+        this.http.post(this.addConsultaUrl,JSON.stringify(visitaItem)
+          ,{headers:new HttpHeaders().set('Content-Type','application/json')}
+        ).subscribe((result:any)=>{
+            console.log('result: '+result)
+        });
+      else
+        console.log('Formulario con errores');  
   }
 
   isUpdate(){
