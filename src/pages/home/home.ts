@@ -189,21 +189,21 @@ export class HomePage {
             });
             if(tieneRoleProfesional)
 
-            this.zone.run(() =>{
-              this.navCtrl.push(VisitaPage,{turnoId:event.id,apellidoNombrePaciente:event.apellidoNombre
-                ,nombreProfesional:this.profesionalId.nombre
-              });
-            });
+                this.zone.run(() =>{
+                  this.navCtrl.push(VisitaPage,{turnoId:event.id,apellidoNombrePaciente:event.apellidoNombre
+                    ,nombreProfesional:this.profesionalId.nombre
+                  });
+                });
   
 
             else  
-              this.navCtrl.push(AddTurnoPage,{turnoId:event.id
-                ,startDate:event.start,endDate:event.end
-                ,dni:event.dni,apellidoNombre:event.apellidoNombre
-                ,op:OpABM.MODIFICACION
-                ,estado:event.estado
-              });
-            
+                this.navCtrl.push(AddTurnoPage,{turnoId:event.id
+                  ,startDate:event.start,endDate:event.end
+                  ,dni:event.dni,apellidoNombre:event.apellidoNombre
+                  ,op:OpABM.MODIFICACION
+                  ,estado:event.estado
+                });
+              
 
 
       }

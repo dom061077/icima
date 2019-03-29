@@ -33,7 +33,7 @@
                 </ion-auto-complete>                    
                 <ion-item>
                     <ion-label floating>Tipo:</ion-label>  
-                    <ion-select>
+                    <ion-select [(ngModel)]="estado" formControlName="estado">
                         <ion-option *ngFor="let estado of estadosConsultas" [value]="estado.id">
                             {{estado.nombre}}
                        </ion-option>   

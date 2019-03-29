@@ -5,6 +5,7 @@ import { Globals, OpABM } from '../../app/globals';
 import { FormGroup, FormBuilder, FormControl, Validators,ReactiveFormsModule  } from "@angular/forms";
 import { HttpClient,HttpHeaders } from '../../../node_modules/@angular/common/http';
 import { VisitaItem } from '../../models/visita/visita-item.interface';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the VisitaPage page.
@@ -36,7 +37,9 @@ export class VisitaPage {
     ,public autocompleteServiceCie10:AutocompleteProvider
     ,private http: HttpClient ) {
       this.formAdd = this.formBuilder.group({
-        'matches'   : ['', [Validators.required]]
+        'matches'   : ['', [Validators.required]],
+        'estado'    : ['', [Validators.required]]
+
           
       });      
       this.turnoId = navParams.get('turnoId');
@@ -58,6 +61,7 @@ export class VisitaPage {
       const visitaItem = {} as VisitaItem;
       visitaItem.turnoId = this.turnoId;
       visitaItem.contenido = this.formAdd.get('matches').value;
+      visitaItem.estado = this.formAdd.get('estado').value;
       visitaItem.cie10Id = this.cie10Id;
 
       //visitaItem.turnoId = this.formAdd.get
@@ -67,7 +71,7 @@ export class VisitaPage {
         this.http.post(this.addConsultaUrl,JSON.stringify(visitaItem)
           ,{headers:new HttpHeaders().set('Content-Type','application/json')}
         ).subscribe((result:any)=>{
-            console.log('result: '+result)
+            this.navCtrl.push(HomePage);
         });
       else
         console.log('Formulario con errores');  
@@ -78,6 +82,7 @@ export class VisitaPage {
   }
 
   itemCie10Selected(event){
+      console.log('Evento CIE10: '+event.id);
       this.cie10Id = event.id;
 
   }
