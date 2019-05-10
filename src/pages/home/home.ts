@@ -11,6 +11,7 @@ import { Observable } from 'rxjs/Rx';
 import { TurnoItem  } from '../../models/turnos/turno-item.interface';
 import { AlertController } from 'ionic-angular';
 import { VisitaPage  } from '../visita/visita';
+import { UploadImgConsulta } from '../uploadimgconsulta/uploadimgconsulta';
 
 
 @Component({
@@ -204,12 +205,19 @@ export class HomePage {
                 }
             });
             if(tieneRoleProfesional)
+                if (event.estado=='TURNO_ATENDIDO'){
+                  this.zone.run(() =>{
+                      this.navCtrl.push(UploadImgConsulta);
 
-                this.zone.run(() =>{
-                  this.navCtrl.push(VisitaPage,{turnoId:event.id,apellidoNombrePaciente:event.apellidoNombre
-                    ,nombreProfesional:this.profesionalId.nombre
+                  });  
+                }else{
+                  this.zone.run(() =>{
+                    
+                    this.navCtrl.push(VisitaPage,{turnoId:event.id,apellidoNombrePaciente:event.apellidoNombre
+                      ,nombreProfesional:this.profesionalId.nombre
+                    });
                   });
-                });
+                }
   
 
             else  

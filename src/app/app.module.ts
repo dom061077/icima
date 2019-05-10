@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { IonicStorageModule } from '@ionic/storage';
 
@@ -10,6 +10,7 @@ import { AddTurnoPage } from '../pages/add-turno/add-turno';
 import { AutoCompleteModule } from 'ionic2-auto-complete';
 import { LoginPage  } from '../pages/login/login';
 import { VisitaPage } from '../pages/visita/visita';
+import { UploadImgConsulta  } from '../pages/uploadimgconsulta/uploadimgconsulta';
 
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -44,6 +45,16 @@ import { AutocompleteProvider } from '../providers/autocomplete/autocomplete';
 
 import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
 
+import { Camera } from '@ionic-native/camera/ngx';
+                       
+import { File } from '@ionic-native/file/ngx';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+import { FilePath } from '@ionic-native/file-path/ngx';
+ 
+
+
+
+
 
 
 @NgModule({
@@ -52,7 +63,9 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
     HomePage,
     AddTurnoPage,
     ListPage,
-    VisitaPage
+    VisitaPage,
+    UploadImgConsulta
+
   ],
   imports: [
     BrowserModule,
@@ -69,13 +82,16 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
     MyApp,
     HomePage,
     AddTurnoPage,
-    VisitaPage
+    VisitaPage,
+    UploadImgConsulta
   ],
   providers: [
     StatusBar,
     SplashScreen,   
     SpeechRecognition,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    Camera,File,WebView,FilePath,
+
     AutocompletePacienteServiceProvider,
     AutocompleteObrasocialServiceProvider,
     AutocompleteProvinciaProvider,
@@ -91,7 +107,7 @@ import { SpeechRecognition } from '@ionic-native/speech-recognition/ngx';
     AutocompleteCie10Provider,
     AutocompleteProvider
     
-  ]
+  ],schemas: [CUSTOM_ELEMENTS_SCHEMA]
 
 })
 export class AppModule {}

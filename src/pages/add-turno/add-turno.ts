@@ -138,14 +138,14 @@ export class AddTurnoPage implements OnInit {
         ,JSON.stringify(turnoItem)
         ,{headers:new HttpHeaders().set('Content-Type','application/json')}
     ).subscribe((result:any)=>{
-      if(!result.success){
+      /*if(!result.success){
         let alert = this.alertCtrl.create({
           title: 'Error',
           message: result.message,
           buttons: ['OK'] 
         }); 
         alert.present();   
-      }            
+      } */           
     });
   }
 

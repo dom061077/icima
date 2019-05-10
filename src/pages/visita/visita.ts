@@ -66,15 +66,15 @@ export class VisitaPage {
 
       //visitaItem.turnoId = this.formAdd.get
       //console.log('Es válido: '+this.formAdd.controls.matches.valid);
-      if(this.formAdd.valid)
+      //if(this.formAdd.valid)
         //console.log('Formulario válido');
         this.http.post(this.addConsultaUrl,JSON.stringify(visitaItem)
           ,{headers:new HttpHeaders().set('Content-Type','application/json')}
         ).subscribe((result:any)=>{
             this.navCtrl.push(HomePage);
         });
-      else
-        console.log('Formulario con errores');  
+      //else
+      //  console.log('Formulario con errores');  
   }
 
   isUpdate(){
